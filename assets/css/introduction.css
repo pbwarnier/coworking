@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+@keyframes spin {
+  	0% { transform: rotate(45deg); }
+  	100% { transform: rotate(405deg); }
+}
+
+@-webkit-keyframes spin {
+  	0% { transform: rotate(45deg); }
+  	100% { transform: rotate(405deg); }
+}
+
+html, body{
+	height: 100%;
+}
+
+body{
+	font-family: 'Open Sans', sans-serif !important;
+	background-color: #2a9d8f !important;
+}
+
+nav{
+	background-color: transparent;
+}
+
+nav a{ color: #ffffff; }
+
+nav a:hover{ color: #ffffff; }
+
+.loader {
+	display: inline-block;
+  	width: 100px;
+  	height: 100px;
+  	border: 8px solid rgba(255, 255, 255, 0.5);
+  	border-radius: 50%;
+  	border-top-color: #fff;
+  	animation: spin 1.2s ease-in-out infinite;
+  	-webkit-animation: spin 1.2s ease-in-out infinite;
+}
+
+.text-giant{ font-size: 4.5rem; }
+
+#div_form{
+	border-radius: 20px;
+	width: 300px;
+	height: 430px;
+}
+
+.preview{
+	background-image: url('/coworking/assets/pictures/user.png');
+	background-size: cover;
+  	background-position: center;
+	position: absolute;
+	margin-top: -60px;
+	left: 50%;
+	margin-left: -50px;
+  	width: 100px;
+  	height: 100px;
+  	z-index: 2;
+  	transition: transform 1s ease-in-out, margin-top 1s ease-in-out;
+}
+
+.custom-file-upload input{ display: none; }
+
+.custom-file-upload{
+	text-align: center;
+    cursor: pointer;
+    border: 2px solid #2a9d8f;
+	border-radius: 50px;
+	background-color: #2a9d8f;
+	color: #ffffff;
+	outline: none;
+	transition: all 0.4s;
+}
+
+.custom-file-upload:hover{
+	border: 2px solid #2a9d8f;
+	border-radius: 50px;
+	background-color: #ffffff;
+	color: #2a9d8f;
+	transition: all 0.4s;
+}
+
+.remove-btn{
+	position: absolute;
+	left: 50%;
+	margin-top: 80px;
+	margin-left: 20px;
+	z-index: 1000;
+}
+
+.btn-customized{
+	border: 2px solid #2a9d8f;
+	border-radius: 50px;
+	background-color: #2a9d8f;
+	color: #ffffff;
+	outline: none;
+	transition: all 0.4s;
+}
+
+.btn-customized:hover{
+	border: 2px solid #2a9d8f;
+	border-radius: 50px;
+	background-color: #ffffff;
+	color: #2a9d8f;
+	transition: all 0.4s;
+}
+
+.btn-customized:focus{ outline: none; }
+
+button[name='skip']:focus{ outline: none; }
+
+button[name='add_skills']:focus{ outline: none; }
+
+textarea[name="biography"]{
+	resize: none;
+}
+
+.invalid-shadow{ box-shadow:0 0 2px 2px rgba(220, 53, 69, 0.3); }
+
+@media screen and (max-width: 947px) {
+	.text-giant{ font-size: 3.2rem; }
+}

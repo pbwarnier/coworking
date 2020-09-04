@@ -1,0 +1,148 @@
+nav{ background-color: #2a9d8f; }
+
+#tabs li{
+	min-width: 150px;
+	background: #efefef;
+	-moz-transform: skew(-15deg, 0deg);
+	-o-transform: skew(-15deg, 0deg);
+	-webkit-transform: skew(-15deg, 0deg);
+	transform: skew(-15deg, 0deg);
+}
+
+#tabs li.active{ background: #dfdfdf; }
+
+#tabs li a{
+	text-align: center; 
+	-moz-transform: skew(15deg, 0deg);
+	-o-transform: skew(15deg, 0deg);
+	-webkit-transform: skew(15deg, 0deg);
+	transform: skew(15deg, 0deg);
+}
+
+#account-options li:hover{ background-color: rgba(255, 255, 255, 0.3); }
+
+#account-options li.active{ background-color: rgba(255, 255, 255, 0.3); }
+
+#account-options li a{ font-size: 1.1rem;}
+
+#open_slideNav{
+	background-color: transparent;
+	transition: 0.3s ease-out;
+}
+
+#open_slideNav:hover{
+	background-color: rgba(255, 255, 255, 0.3);
+	transition: 0.3s ease-out;
+}
+
+.btn-customized{
+	background-color: #2a9d8f;
+	border: 2px solid #fff;
+	color: #fff;
+	transition: 0.3s ease-out;
+}
+
+.btn-customized:focus{ outline: none; }
+
+.btn-customized:hover{
+	background-color: #ffffff;
+	border: 2px solid #fff;
+	color: #2a9d8f;
+	cursor: pointer;
+	transition: 0.3s ease-out;
+}
+
+.btn-customized-alternativ{
+	background-color: #fff;
+	border: 2px solid #2a9d8f;
+	color: #2a9d8f;
+	cursor: pointer;
+	transition: 0.3s ease-out;
+}
+
+.btn-customized-alternativ:focus{ outline: none; }
+
+.btn-customized-alternativ:hover{
+	background-color: #2a9d8f;
+	border: 2px solid #2a9d8f;
+	color: #fff;
+	transition: 0.3s ease-out;
+}
+
+.btn-customized-alternativ:disabled{
+	background-color: #fff;
+	border: 2px solid #bfbfbf;
+	color: #bfbfbf;
+	cursor: default;
+}
+
+.btn-customized img{
+	width: 30px;
+	height: 30px;
+}
+
+.large-link{ display: block; }
+
+.small-link{ display: none; }
+
+.slideNav{
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1110;
+	top: 0;
+	left: 0;
+	overflow-x: hidden;
+	transition: 0.5s ease-out;
+}
+
+.slideNav a{ white-space: nowrap; }
+
+.slideNav a:hover{ background-color: #dfdfdf }
+
+.slideNav a img{
+	width: 25px;
+	height: 25px;
+}
+
+.close_nav{
+	border: none;
+	position: absolute;
+	top: 0;
+	right: 12px;
+	font-size: 30px;
+	line-height: 1;
+	background: transparent;
+}
+
+.close_nav:focus{
+	outline: none;
+}
+
+#userpic{
+	width: 45px;
+	height: 45px;
+}
+
+@media screen and (max-width: 1100px){
+	.large-link{ display: none; }
+
+	.small-link{ display: block; }
+}
+
+
+@media screen and (min-width: 911px) and (max-width: 1100px){
+	#tabs li{ min-width: 100px; }
+}
+
+@media screen and (min-width: 725px) and (max-width: 910px){
+	#tabs li{ min-width: 100px; }
+
+	.large-text{ display: none; }
+}
+
+@media screen and (max-width: 724px){
+	#tabs li{ min-width: 60px; }
+
+	.large-text{ display: none; }
+}

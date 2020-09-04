@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+body{ 
+	font-family: 'Open Sans', sans-serif !important;
+	display: flex;
+	flex-direction: column;
+}
+
+.p-customized{
+    padding-top: 58px;
+}
+
+#userpic{
+	width: 45px;
+	height: 45px;
+}
+
+.btn-interaction{
+	background-color: #fff;
+	color: #343a40;
+}
+
+.btn-interaction:hover{
+	background-color: #efefef;
+	color: #343a40;
+}
+
+.btn-interaction:focus{
+	outline: none;
+}
+
+.comments_contain{
+	padding: 1rem;
+	display: none;
+}
+
+.comments_contain_block{
+	padding: 1rem;
+	display: block;
+}
+
+textarea[name="edit-comment"]{
+	height: 66px;
+	transition: 0.5s ease;
+}
+
+textarea[name="edit-comment"]:focus{
+	height: 114px;
+	outline: none;
+	box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
+	transition: 0.5s ease;
+}

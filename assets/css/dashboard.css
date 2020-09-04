@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+html, body{ 
+	height: 100%;
+	margin: 0;
+}
+
+body{ 
+	font-family: 'Open Sans', sans-serif !important;
+	display: flex;
+	flex-direction: column;
+}
+
+.p-customized{ padding-top: 58px; }
+
+.calendar, .cloud{ height: calc(100vh - 115px); }
+
+.calendar-line{ height: 20%; }
+
+.calendar-container{ height: calc(100vh - 223px); }
+
+.calendar-weeks-6 .calendar-line { height: 16.66%; }
+
+.calendar-case:hover{
+	cursor: pointer;
+	background-color: rgba(97, 200, 180, 0.1);
+}
+
+div.event-view, div.add-event, div.event-details{
+	position: absolute;
+	bottom: 0;
+	left: calc(50% - 150px);
+	max-width: 300px;
+	width: 100%;
+	display: none;
+}
+
+div.event-view button:focus, div.add-event button:focus, .add-event input:focus, .add-event textarea:focus, button[name='close-details']:focus{ outline: none; }
+
+.event-line:hover{
+	cursor: pointer;
+	background-color: #dfdfdf;
+}
+
+.line-height{ line-height: 1.3; }
+
+.margin-y{
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.input-title{
+	border: none;
+	font-size: 1rem;
+	transition: 0.3s ease-out;
+}
+
+.input-title:focus{
+	border: none;
+	outline: none;
+	font-size: 1.3rem;
+	transition: 0.3s ease-out;
+}
+
+.display-flex{ display: flex; }
+
+.bg-blue{ background-color: rgba(97, 200, 180, 0.3); }
+
+.led{
+	width: 10px;
+	height: 10px;
+}
+
+.fileSize-progress{
+	height: 10px;
+	background-color: #e9ecef;
+	overflow: hidden;
+}
+
+.fileSize-progress .p-bar{
+	height: 100%;
+	transition: width ease-in-out 2s;
+}
+
+.cloud button[name='options']{
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	transform: scale(1);
+	transition: transform 0.3s ease-out;
+}
+
+.cloud button[name='options']:hover{
+	transform: scale(1.2);
+	transition: transform 0.3s ease-out;
+}

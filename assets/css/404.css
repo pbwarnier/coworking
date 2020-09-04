@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+html, body{ 
+	height: 100%;
+	margin: 0;
+}
+
+body{ 
+	font-family: 'Open Sans', sans-serif !important;
+	display: flex;
+	flex-direction: column;
+}
+
+.p-customized{ padding-top: 58px; }

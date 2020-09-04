@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+html, body{ 
+    height: 100%;
+  	margin: 0;
+}
+
+body{ font-family: 'Open Sans', sans-serif !important; }
+
+#userpic{
+    width: 45px;
+  	height: 45px;
+}
+
+.p-customized{
+    padding-top: 58px;
+}
+
+.messenger{
+  	min-width: 300px !important;
+  	max-width: 300px !important;
+  	width: 100% !important;
+}
+
+.scroll{
+	 overflow-y: scroll;
+}
+
+.scroll::-webkit-scrollbar {
+	 width: 0px;
+}
+
+.cover{
+    position: relative;
+    height: 150px !important;
+  	background-image: url('/coworking/assets/pictures/background-user.jpg');
+  	background-size: cover;
+  	background-attachment: initial;
+  	background-repeat: no-repeat;
+}
+
+.cover .profil-picture{
+  	position: absolute;
+  	max-width: 150px;
+  	min-width: 150px;
+  	width: 100%;
+  	margin-top: 50px;
+  	margin-left: 16px;
+}
+
+.cover .personnal-picture{
+    position: absolute;
+    max-width: 150px;
+    min-width: 150px;
+    width: 100%;
+    margin-top: 50px;
+    margin-left: 16px;
+}
+
+.personnal-picture button{
+    border: none;
+    background: transparent;
+    color: #fff;
+}
+
+.personnal-picture button:hover{
+    text-decoration: underline;
+}
+
+figure{
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.personnal-picture figcaption{
+    position: absolute;
+    color: white;
+    bottom: 0px;
+    left: 0px;
+    z-index: 2;
+    width: 100%;
+    height: 0px;
+    background: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    transition: height ease-out 0.2s;
+}
+
+.profil-picture img{
+    cursor: normal;
+    transform: scale(1);
+    transition: transform 0.3s ease-out;
+}
+
+.profil-picture:hover img{
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: transform 0.3s ease-out;
+}
+
+.personnal-picture:hover figcaption{
+    position: absolute;
+    color: white;
+    bottom: 0px;
+    left: 0px;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    transition: height ease-out 0.3s;
+}
+
+.ml-personalized{
+    margin-left: 170px;
+}
+
+.zoom{
+    display: none;
+  	position: fixed;
+  	z-index: 1100;
+  	padding-top: 100px;
+  	left: 0;
+  	top: 0;
+  	width: 100%;
+  	height: 100%;
+  	overflow: auto;
+  	background-color: rgb(0, 0, 0);
+  	background-color: rgba(0, 0, 0, 0.9);
+}
+
+.zoom img{
+  	margin: auto;
+  	display: block;
+  	max-width: 400px;
+  	max-height: 400px;
+}
+
+.close_zoom {
+  	position: absolute;
+  	top: 15px;
+  	right: 35px;
+  	color: #f1f1f1;
+  	font-size: 40px;
+  	font-weight: bold;
+  	transition: 0.3s;
+}
+
+.close_zoom:hover,
+.close_zoom:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.bg-customized{ background-color: #2a9d8f; }
+
+.text-customized { color: #2a9d8f; }
+
+.company_logo{
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+}
+
+.msg-zone{ height: calc(100% - 145px); }
+
+.profil-progress{
+  height: 10px;
+  background-color: #e9ecef;
+  overflow: hidden;
+}
+
+.profil-progress .bar{
+  height: 100%;
+  transition: width ease-in-out 2s;
+}
+
+.font-size{ font-size: 1.25rem; }
+
+.h-customized{ font-size: 5rem; }
+
+.pill-right{ border-radius: 0 30px 30px 0 !important; }
+.pill-left{ border-radius: 30px 0 0 30px !important; }
+
+@media screen and (max-width: 992px){
+    .scroll{ overflow-y: visible; }
+}
+
+@media screen and (max-width: 767px) {
+    .ml-personalized{ margin-left: 0; }
+
+    .cover .profil-picture{
+        position: absolute;
+        max-width: 150px;
+        min-width: 150px;
+        width: 100%;
+        margin-top: 50px;
+        margin-left: calc(50% - 75px);
+    }
+
+    .cover .personnal-picture{
+        position: absolute;
+        max-width: 150px;
+        min-width: 150px;
+        width: 100%;
+        margin-top: 50px;
+        margin-left: calc(50% - 75px);
+    }
+}

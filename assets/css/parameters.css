@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+body{ font-family: 'Open Sans', sans-serif !important; }
+
+.p-customized{ padding-top: 58px; }
+
+.container a:hover{ text-decoration: none; }
+
+.container a:hover div{ background-color: #f8f9fa; }
+
+.container #mini_userpic{
+	width: 45px;
+	height: 45px;
+}
+.w-45{ width: 45px; }
+
+.w-title{ width: 200px; }
+
+.custom-file-upload input{ display: none; }
+
+.custom-file-upload{
+	text-align: center;
+    cursor: pointer;
+    border: 2px solid #2a9d8f;
+	border-radius: 50px;
+	background-color: #2a9d8f;
+	color: #ffffff;
+	outline: none;
+	transition: all 0.4s;
+}
+
+.custom-file-upload:hover{
+	border: 2px solid #2a9d8f;
+	border-radius: 50px;
+	background-color: #ffffff;
+	color: #2a9d8f;
+	transition: all 0.4s;
+}
+
+.preview{
+	width: 150px;
+	height: auto;
+}
+
+.input-customized-lg label, .input-customized-md label, .input-customized-sm label, .input-customized-xs label{
+	position: absolute;
+	margin-top: -10px;
+	margin-left: 20px;
+	background-color: #fff;
+}
+
+.input-customized-lg{ max-width: 300px; width: 100%; }
+
+.input-customized-md{ max-width: 200px; width: 100%; }
+
+.input-customized-sm{ max-width: 100px; width: 100%; }
+
+.input-customized-xs{ max-width: 80px; width: 100%; }
+
+.btn-outline-customized{
+	border: 2px solid #2a9d8f;
+	background-color: #2a9d8f;
+	color: #fff;
+	transition: 0.3s ease-out;
+}
+
+.btn-outline-customized:hover{
+	border: 2px solid #2a9d8f;
+	background-color: #fff;
+	color: #2a9d8f;
+	transition: 0.3s ease-out;
+}
+
+.btn-outline-customized:focus{ outline: none; }
+
+@media screen and (max-width: 767px){
+	.w-title{ width: 100%; }
+}
+
+@media screen and (max-width: 575px){
+	.w-45{ width: 10px; }
+
+	.input-customized-lg, .input-customized-md, .input-customized-sm, .input-customized-xs{
+		max-width: 300px;
+		min-width: 300px;
+		width: 100%;
+	}
+}
