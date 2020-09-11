@@ -1,4 +1,5 @@
 <?php
+	require_once dirname(__FILE__).'/../config/config.php';
 	require_once dirname(__FILE__).'/../models/User.php'; // insert class User
 	require_once dirname(__FILE__).'/../models/Company.php'; // insert class Company
 
@@ -20,12 +21,12 @@
 	// variable pour factory form
 	$name_company = null;
 	$siret = null;
-	$adress_number = null;
+	$address_number = null;
 	$number_add = null;
 	$address = null;
-	$adress_add = null;
+	$address_add = null;
 	$postal_code = null;
-	$postal_code = null;
+	$city = null;
 	$phone = null;
 	$mobile = null;
 	$owner = null;	
@@ -41,7 +42,7 @@
 		if (empty($_POST['sexe'])) {
 			$errors['sexe'] = 'Veuillez choisir votre civilité';
 		}
-		elseif ($_POST['sexe'] != '1' && $_POST['sexe'] != '2') {
+		elseif ($_POST['sexe'] != 'H' && $_POST['sexe'] != 'F') {
 			$errors['sexe'] = 'La donnée choisie n\'est pas correcte';
 		}
 
@@ -86,9 +87,6 @@
 	    	if ($password != $confirmPassword) {
 	    		$errors['confirm_password'] = 'Les mots de passe ne sont pas identiques';
 	    	}
-	    	else{
-	    		$_POST['password'] = password_hash($password, PASSWORD_BCRYPT);
-	    	}
 	    }
 	    else{
 	    	$errors['password'] = 'Veuillez choisir un mot de passe';
@@ -124,35 +122,46 @@
 	    	if (empty($siret)) {
 	    		$errors['siret'] = 'Veuillez saisir votre numéro de SIRET';
 	    	}
-	    	elseif (!preg_match('/^[0-9]{14}$/', $siret)) {
+	    	elseif (!preg_match('/^[0-9]{14}$/i', $siret)) {
 	    		$errors['siret'] = 'Veuillez entrer un numéro de SIRET valide';
 	    	}
 
-	    	$adress_number = trim(filter_input(INPUT_POST, 'adress_number', FILTER_SANITIZE_NUMBER_INT));
-	    	if (!empty($adress_number)) {
-	    		if (!preg_match('/^[0-9]{1,4}$/', $adress_number)) {
-	    			$errors['adress_number'] = 'Veuillez saisir un numéro correcte';
+	    	$address_number = trim(filter_input(INPUT_POST, 'address_number', FILTER_SANITIZE_NUMBER_INT));
+	    	if (!empty($address_number)) {
+	    		if (!preg_match('/^[0-9]{1,4}$/', $address_number)) {
+	    			$errors['address_number'] = 'Veuillez saisir un numéro correcte';
 	    		}
 	    	}
 
 	    	if (!empty($_POST['number_add'])) {
-	    		if ($_POST['number_add'] != 'bis' || $_POST['number_add'] != 'ter' || $_POST['number_add'] != 'quarter') {
-	    			$errors['number_add'] = 'La donnée choisie n\'est pas correcte';
+	    		if ($_POST['number_add'] != 'bis' && $_POST['number_add'] != 'ter' && $_POST['number_add'] != 'quarter') {
+	    			$errors['number_add'] = 'La donnée choisie n\'est pas reconnue';
+	    		}
+	    		elseif (empty($address_number)) {
+	    			$errors['address_number'] = 'Le numéro d\'adresse est manquant';
 	    		}
 	    	}
 
-	    	$adress = trim(strip_tags($_POST['adress']));
-	    	$adress_add = trim(strip_tags($_POST['adress_add']));
-	    	if (!empty($adress_add) && empty($adress)) {
-	    		$errors['adress'] = 'Veuillez renseigner votre adresse en plus du complément';
+	    	$address = trim(filter_input(INPUT_POST, 'address', FILTER_SANITIZE_STRING));
+	    	$address_add = trim(filter_input(INPUT_POST, 'address_add', FILTER_SANITIZE_STRING));
+	    	if (!empty($address_add) && empty($address)) {
+	    		$errors['address'] = 'Veuillez renseigner votre adresse en plus du complément';
 	    	}
 
 	    	$postal_code = trim(filter_input(INPUT_POST, 'postal_code', FILTER_SANITIZE_NUMBER_INT));
 	    	if (empty($postal_code)) {
 	    		$errors['postal_code'] = 'Veuillez renseigner votre code postale';
 	    	}
-	    	elseif (!preg_match('/^[0-9]{5}$/', $postal_code)) {
+	    	elseif (!preg_match('/^[0-9]{5}$/i', $postal_code)) {
 	    		$errors['postal_code'] = 'Le format attendu n\'est pas respecté';
+	    	}
+
+	    	$city = trim(filter_input(INPUT_POST, 'city', FILTER_SANITIZE_NUMBER_INT));
+	    	if (empty($city)) {
+	    		$errors['city'] = 'Veuillez choisir une ville';
+	    	}
+	    	elseif (ctype_digit($city) === false) {
+	    		$errors['city'] = 'La donnée saisie n\'est pas reconnue';
 	    	}
 
 	    	$phone = trim(strip_tags($_POST['phone']));
@@ -161,18 +170,20 @@
 	    		$errors['phone'] = 'Renseignez au moins un numéro';
 	    	}
 	    	else{
-	    		if (!empty($phone) && !preg_match('/^(?:\+33|0033|0)[1-59]((?:([\-\/\s\.])?[0-9]){2}){4}$/', $phone)) {
+	    		if (!empty($phone) && !preg_match('/^(?:\+33|0033|0)[1-59]((?:([\-\/\s\.])?[0-9]){2}){4}$/i', $phone)) {
 	    			$errors['phone'] = 'Le format de votre numéro n\'est valide';
 	    		}
 
-	    		if (!empty($mobile) && !preg_match('/^(?:\+33|0033|0)[6-7]((?:([\-\/\s\.])?[0-9]){2}){4}$/', $mobile)) {
+	    		if (!empty($mobile) && !preg_match('/^(?:\+33|0033|0)[6-7]((?:([\-\/\s\.])?[0-9]){2}){4}$/i', $mobile)) {
 	    			$errors['mobile'] = 'Le format de votre numéro n\'est valide';
 	    		}
 	    	}
+
+	    	$owner = trim(filter_input(INPUT_POST, 'owner', FILTER_SANITIZE_NUMBER_INT));
 	    }
 
 	    // convert datas to json
-	    exit(json_encode($errors));
+		exit(json_encode($errors));
 	}
 
 	if (isset($_GET['type']) && $_GET['type'] == "employee") {

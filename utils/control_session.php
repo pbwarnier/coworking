@@ -8,9 +8,9 @@
 		}
 		// sinon on vérifie la présence des cookies pour recréer la session
 		elseif (!empty($_COOKIE['user_id']) && !empty($_COOKIE['user_login']) && !empty($_COOKIE['user_permission'])) {
-			$decrypted_id = openssl_decrypt($_COOKIE['user_id'], 'AES-128-ECB' , $key); // decrypt id
-			$decrypted_login = openssl_decrypt($_COOKIE['user_login'], 'AES-128-ECB' , $key); // decrypt login
-			$decrypted_permission = openssl_decrypt($_COOKIE['user_permission'], 'AES-128-ECB' , $key); // decrypt permission
+			$decrypted_id = openssl_decrypt($_COOKIE['user_id'], 'AES-128-ECB', $key); // decrypt id
+			$decrypted_login = openssl_decrypt($_COOKIE['user_login'], 'AES-128-ECB', $key); // decrypt login
+			$decrypted_permission = openssl_decrypt($_COOKIE['user_permission'], 'AES-128-ECB', $key); // decrypt permission
 			$infoSession = ['auth' => true, 'id' => $decrypted_id, 'login' => $decrypted_login, 'permission' => $decrypted_permission]; // session informations
 			$_SESSION['user'] = $infoSession;
 			header('location: news');

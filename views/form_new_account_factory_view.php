@@ -20,7 +20,7 @@
     				<div class="carousel-item h-customized">
     					<div class="h-100 d-flex">
 	      					<div class="my-auto text-customized text-white text-shadow font-weight-bold">
-								Centralisez vos outils sur une seule et unique plateforme numérique
+								Obtenez des statistiques sur diverses sondages organisés dans votre entreprise
 							</div>
 						</div>
     				</div>
@@ -48,14 +48,14 @@
 	<div class="py-3 w-100 d-flex">
 		<div class="m-auto p-3 w-100 bg-light rounded">
 			<h2 class="text-dark">Enregistrer mon entreprise</h2>
-			<form id="subscribeForm" action="create-account" method="POST">
+			<form id="subscribeForm" action="create-account-factory" method="POST">
 				<div id="step1" class="w-100 step">
 					<div class="my-2 w-100 d-sm-flex d-block">
 						<div class="mr-sm-2 w-100">
 							<select class="px-3 py-2 w-100 border text-secondary" name="sexe" onchange="changeColor('sexe')">
 								<option value="" selected="selected" disabled="disabled" hidden="hidden">Votre civilité</option>
-								<option value="1">Monsieur</option>
-								<option value="2">Madame</option>
+								<option value="H">Monsieur</option>
+								<option value="F">Madame</option>
 							</select>
 						</div>
 						<div class="ml-lg-2 my-2 w-100"></div>
@@ -76,9 +76,9 @@
 					</div>
 					<div class="my-2 w-100 d-sm-flex d-block">
 						<div class="mr-sm-2 w-100">
-							<input id="input_password" class="px-3 py-2 w-100 border" type="password" name="password" onfocus="slideDown('forcePassword')" onblur="slideUp('forcePassword')" onkeyup="force()" placeholder="Mot de passe">
+							<input id="input_password" class="px-3 py-2 w-100 border" type="password" name="password" onfocus="slideDown('forcePassword')" onblur="slideUp('forcePassword')" placeholder="Mot de passe">
 						</div>
-						<div class="mt-sm-0 mt-2 ml-lg-2 my-2 w-100">
+						<div class="mt-sm-0 mt-2 ml-lg-2 w-100">
 							<input id="confirm_password" class="px-3 py-2 w-100 border" type="password" name="confirm_password"  on onfocus="slideDown('check_passwords')" onblur="slideUp('check_passwords')" onkeyup="compare_passwords()" placeholder="Confirmer le mot de passe">
 						</div>
 					</div>
@@ -97,14 +97,14 @@
 			    </div>
 			    <div id="step2" class="w-100 step d-none">
 			        <div class="my-2 w-100">
-			            <input class="px-3 py-2 w-100 border" type="text" name="name_company" placeholder="Nom ou dénomination de l'entreprise">
+			            <input class="px-3 py-2 w-100 border" type="text" name="name_company" placeholder="Nom ou dénomination de l'entreprise" autocomplete="off">
 			        </div>
 			        <div class="my-2 w-100">
-			            <input class="px-3 py-2 w-100 border" type="text" name="siret" placeholder="Numéro de SIRET">
+			            <input class="px-3 py-2 w-100 border" type="text" name="siret" placeholder="Numéro de SIRET" autocomplete="off">
 			        </div>
 			        <div class="my-2 w-100 d-sm-flex d-block">
 						<div class="mr-sm-2 w-100">
-							<input class="px-3 py-2 w-100 border" type="text" name="adress_number" maxlength="4" placeholder="Numéro">
+							<input class="px-3 py-2 w-100 border" type="text" name="address_number" maxlength="4" placeholder="Numéro">
 						</div>
 						<div class="mt-sm-0 mt-2 ml-lg-2 w-100">
 							<select id="number_add" class="px-3 py-2 w-100 border text-secondary" name="number_add" onchange="changeColor('number_add')">
@@ -116,16 +116,16 @@
 						</div>
 					</div>
 					<div class="my-2 w-100">
-						<input class=" px-3 py-2 w-100 border" type="text" name="adress" placeholder="Adresse">
+						<input class=" px-3 py-2 w-100 border" type="text" name="address" placeholder="Adresse">
 					</div>
 					<div class="my-2 w-100">
-						<input class="px-3 py-2 w-100 border" type="text" name="adress_add" placeholder="Complément d'adresse">
+						<input class="px-3 py-2 w-100 border" type="text" name="address_add" placeholder="Complément d'adresse">
 					</div>
 					<div class="my-2 w-100 d-sm-flex d-block">
 						<div class="mr-sm-2 w-100">
 							<input class="px-3 py-2 w-100 border" type="text" name="postal_code" placeholder="Code postal">
 						</div>
-						<div class="mt-sm-0 mt-2 ml-lg-2 my-2 w-100">
+						<div class="mt-sm-0 mt-2 ml-lg-2 w-100">
 							<select class="px-3 py-2 w-100 border" name="city" disabled="disabled">
 								<option value="" disabled="disabled" selected="selected" hidden="hidden">Ville</option>
 							</select>
@@ -156,7 +156,7 @@
 							<div class="ml-auto d-flex">
 								<div id="owner-result" class="mr-2">Non</div>
 								<div class="custom-control custom-switch" onclick="checkbox()">
-			  						<input type="checkbox" class="custom-control-input" id="owner" name="owner">
+			  						<input type="checkbox" class="custom-control-input" id="owner" name="owner" value="1">
 			  						<label class="custom-control-label" for="owner"></label>
 								</div>
 							</div>

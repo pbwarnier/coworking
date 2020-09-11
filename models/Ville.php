@@ -6,7 +6,6 @@
 	 */
 	class Ville
 	{
-
 		private $id;
 		private $ville_name;
 		private $ville_code;

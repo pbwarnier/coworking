@@ -22,6 +22,47 @@
 		</ul>
 	</div>
 </nav>
+<?php if ($successCreate === true && isset($_GET['type']) && $_GET['type'] == 'factory') : ?>
+	<div class="modal fade" id="success" tabindex="-1" aria-labelledby="success" aria-hidden="true">
+  		<div class="modal-dialog modal-dialog-centered">
+    		<div class="modal-content border-0 rounded-lg">
+    			<div class="modal-body">
+       				<h3 class="mb-3 font-weight-bold" style="color: #2a9d8f;">Votre espace Co'working est pret !</h3>
+       				<p class="text-dark text-justify">
+       					Félicitations pour ce premier pas vers Co'working !
+       					<br>
+       					Pour activer votre réseau Co'working et obtenir votre code d'identification, nous vous avons envoyé un email avec un lien d'activation valide jusqu'au <?= $date->format('d/m/Y'); ?> à <?= $date->format('H:i'); ?>
+       					<br>
+       					Après cette étape validée, profitez plainement de l'expérience Co'working et commencez à inviter vos employés.
+       				</p>
+       				<div class="w-100 d-flex justify-content-end">
+       					<a href="authentification" class="btn btn-primary rounded-pill">Retour à l'écran d'accueil</a>
+       				</div>
+      			</div>
+    		</div>
+    	</div>
+	</div>
+<?php elseif ($successCreate === true && isset($_GET['type']) && $_GET['type'] == 'employee') : ?>
+	<div class="modal fade" id="success" tabindex="-1" aria-labelledby="success" aria-hidden="true">
+  		<div class="modal-dialog modal-dialog-centered">
+    		<div class="modal-content border-0 rounded-lg">
+    			<div class="modal-body">
+       				<h3 class="mb-3 font-weight-bold" style="color: #2a9d8f;">Notification d'inscription</h3>
+       				<p class="text-dark text-justify">
+       					Votre demande d'inscription a été envoyé au responsable l'entreprise X
+       					<br>
+       					Vous receverez une notification par email au plus tard le <?= $date->format('d/m/Y'); ?> à <?= $date->format('H:i'); ?> afin d'indiquer si l'accès vous est autorisé.
+       					<br>
+       					Dans le cas d'une réponse défavorable, vos données seront automatiquement suprimées.
+       				</p>
+       				<div class="w-100 d-flex justify-content-end">
+       					<a href="authentification" class="btn btn-primary rounded-pill">Retour à l'écran d'accueil</a>
+       				</div>
+      			</div>
+    		</div>
+    	</div>
+	</div>
+<?php endif; ?>
 <div id="contain" class="h-100 w-100 d-flex horizon-background-color">
 	<div id="choice_form" class="m-auto p-md-5 p-3 d-sm-flex d-block">
 		<div class="mr-sm-2">
@@ -29,8 +70,9 @@
 				<div class="w-100 d-flex">
 					<img class="m-auto w-50" src="assets/pictures/human.png" alt="employé">
 				</div>
-				<div class="mx-auto mt-sm-5 mt-3">
-					Je suis un employé
+				<div class="mt-sm-5 mt-3 w-100 text-center">
+					<div class="text-dark">Je suis salarié</div>
+					<div class="small text-secondary">Rejoignez votre entreprise</div>
 				</div>
 			</button>
 		</div>
@@ -39,8 +81,9 @@
 				<div class="w-100 d-flex">
 					<img class="m-auto w-50" src="assets/pictures/factory.png" alt="employeur">
 				</div>
-				<div class="mx-auto mt-sm-5 mt-3">
-					Je suis un dirigeant
+				<div class="mt-sm-5 mt-3 w-100 text-center">
+					<div class="text-dark">Je suis cadre</div>
+					<div class="small text-secondary">Enregistrez votre entreprise</div>
 				</div>
 			</button>
 		</div>

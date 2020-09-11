@@ -41,4 +41,8 @@ $(document).ready(function(){
 			$("#contain").html(response);
 		})
 	}
+
+	setTimeout(function(){
+		$("#success").modal('show');
+	}, 500)
 })

@@ -34,7 +34,7 @@
     				<div class="carousel-item h-customized">
     					<div class="h-100 d-flex">
 	      					<div class="my-auto text-customized text-white text-shadow font-weight-bold">
-								Récupérez vos documents n'importe où avec votre espace de stockage en ligne
+								Récupérez vos fichiers n'importe où avec votre espace de stockage en ligne
 							</div>
 						</div>
     				</div>
@@ -48,13 +48,13 @@
 	<div class="py-3 w-100 d-flex">
 		<div class="m-auto p-3 bg-light rounded">
 			<h2 class="text-dark">Créer un compte</h2>
-			<form id="subscribeForm" action="create-account" method="POST">
+			<form id="subscribeForm" action="create-account-employee" method="POST">
 				<div class="my-2 w-100 d-sm-flex d-block">
 					<div class="mr-sm-2 w-100">
 						<select class="px-3 py-2 w-100 text-secondary border" name="sexe" onchange="changeColor('sexe')">
 							<option value="" selected="selected" disabled="disabled" hidden="hidden">Votre civilité</option>
-							<option value="1">Monsieur</option>
-							<option value="2">Madame</option>
+							<option value="H">Monsieur</option>
+							<option value="F">Madame</option>
 						</select>
 					</div>
 					<div class="ml-lg-2 my-2 w-100"></div>
@@ -82,7 +82,7 @@
 				</div>
 				<div class="my-2 w-100 d-sm-flex d-block">
 					<div class="mr-sm-2 w-100">
-						<input id="input_password" class="px-3 py-2 w-100 border" type="password" name="password" onfocus="slideDown('forcePassword')" onblur="slideUp('forcePassword')" onkeyup="force()" placeholder="Mot de passe">
+						<input id="input_password" class="px-3 py-2 w-100 border" type="password" name="password" onfocus="slideDown('forcePassword')" onblur="slideUp('forcePassword')" placeholder="Mot de passe">
 					</div>
 					<div class="mt-sm-0 mt-2 ml-lg-2 my-2 w-100">
 						<input id="confirm_password" class="px-3 py-2 w-100 border" type="password" name="confirm_password" onfocus="slideDown('check_passwords')" onblur="slideUp('check_passwords')" onkeyup="compare_passwords()" placeholder="Confirmer le mot de passe">

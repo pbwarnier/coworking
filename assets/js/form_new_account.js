@@ -29,9 +29,7 @@ function slideDown(id) {
 	}
 }
 
-function force() {
-	// select value in input password
-	var password = $("input[name='password']").val();
+function force(password) {
 	var textForce = $("#force");
 	var force = 0;
 				
@@ -56,7 +54,7 @@ function force() {
 		force ++;
 	}
 
-	// couleur et texte en fonction de la force
+	// color and text change whith de password force
 	if (force == 1 || password == '') {
 		var bgColor = '#dc3545';
 		textForce.text('Faible');
@@ -91,7 +89,7 @@ function compare_passwords() {
 	var input = $("#input_password");
 	var compare = $("#confirm_password");
 	var checked = $("#checked_info");
-	if (compare.val() != "" && input.val() == compare.val()) {
+	if (compare.val() != "" && input.val() == compare.val()) { 
 		checked.removeClass("invalid");
 		checked.addClass("valid");
 		checked.text("Les mots de passe correspondent");
@@ -113,6 +111,7 @@ function scrollDown() {
 	return false;
 }
 
+// show the next step of the form
 function next_step(number){
 	if (number == "1") {
 		$("#step1").addClass('d-none');
@@ -125,6 +124,7 @@ function next_step(number){
 	}
 }
 
+// show the last step of the form
 function last_step(number){
 	if (number == "2") {
 		$("#step2").addClass('d-none');
@@ -148,30 +148,41 @@ function checkbox(){
 
 
 function searchCity(zipcode){
-	if (zipcode.length > 2) {
+	// check the length of stings
+	if (zipcode.length > 4) {
 		$.ajax({
 			url: '/coworking/controllers/search_city_controller.php',
 			type: 'POST',
-			data: { 'zipcode': zipcode }
+			data: { 'zipcode': zipcode } // name and value for the $_POST
 		})
 		.done(function(list_city){
-			list_city = $.parseJSON(list_city);
+			list_city = $.parseJSON(list_city); // construct strings with the JSON response
+			$("select[name='city'] option").remove(); // delete options for this select
 			if (list_city != 0) {
-				$("#error_search").remove();
-				$("select[name='city']").removeAttr('disabled');
+				$("#error_search").remove(); // delete error text
+				$("select[name='city']").removeAttr('disabled'); // remove disabled attribute
+				$("select[name='city']").append('<option value="" selected="selected" disabled="disabled" hidden="hidden">Choisir une ville</option>'); // add an option in the select
 				$.each(list_city, function(key, value){
-					console.log(value);
+					var option = $("<option></option>") // create option
+        			.attr("value", value.ville_id) // add an attribute value with the city id
+        			.text(value.ville_nom_reel+' ('+value.ville_code_postal+')'); // add text in the option
+					$("select[name='city']").append(option); // add option list in the select
 				})
 			}
 			else {
-				$("#error_search").remove();
-				$("select[name='city']").after('<div id="error_search" class="text-danger small">Auncun résultat trouvé pour '+zipcode+'</div>');
+				$("#error_search").remove(); // delete error text
+				$("select[name='city']").attr('disabled', 'disabled'); // add attribute disabled
+				$("select[name='city']").after('<div id="error_search" class="text-danger small">Auncun résultat trouvé pour '+zipcode+'</div>'); // create error text with the chain entered in input
+				$("select[name='city'] option").remove(); // delete options for this select
+				$("select[name='city']").append('<option value="" selected="selected" disabled="disabled" hidden="hidden">Ville</option>'); // create option with several attributes
 			}
 		})
 	}
 	else {
 		$("#error_search").remove();
 		$("select[name='city']").attr('disabled', 'disabled');
+		$("select[name='city'] option").remove();
+		$("select[name='city']").append('<option value="" selected="selected" disabled="disabled" hidden="hidden">Ville</option>');
 	}
 }
 
@@ -181,18 +192,25 @@ $(document).ready(function(){
 	})	
 })
 
+$("#input_password").keyup(function(){
+	// select value in input password
+	var password = $(this).val();
+	force(password);
+})
+
 $("input[name='postal_code']").keyup(function(){
 	var zipcode = $(this).val();
+	zipcode = zipcode.replace(/(<([^>]+)>)/gi, ""); // delete HTML and PHP tags
 	searchCity(zipcode);
 }).on(function(){
 	var zipcode = $(this).val();
+	zipcode = zipcode.replace(/(<([^>]+)>)/gi, "");
 	searchCity(zipcode);
 })
 	
 	
 $("#subscribe").click(function(event){
-	// prevents page reloading
-	event.preventDefault();
+	event.preventDefault(); // prevents page reloading
 	var data = $("#subscribeForm").serialize();
 	// get the form type and add it to the serialized chain
 	data = data+encodeURI('&type='+$(this).data('target'));
