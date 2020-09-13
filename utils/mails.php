@@ -1,5 +1,5 @@
 <?php
-	function sendmail($to, $subject, $message) {
+	function sendmail($to, $subject, $text) {
 		$header = "MIME-Version: 1.0\r\n";
 		$header .= 'From:"Notification Coworking"<warnier.pb@gmail.com>'."\n";
 		$header .= 'Content-Type:text/html, charset="utf-8"'."\n";

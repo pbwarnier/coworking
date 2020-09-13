@@ -92,4 +92,17 @@
 				$this->id = $this->database->lastInsertId();
 			}
 		}
+
+		function getCode(){
+			$select_SQL = 'SELECT `company_code` FROM `company` WHERE `users_id_manager` = :users_id_manager';
+			$selectStatement = $this->database->prepare($select_SQL);
+
+			// binding values in request sql
+			$selectStatement->bindValue(':users_id_manager', $this->users_id_manager, PDO::PARAM_INT);
+			$selectStatement->setFetchMode(PDO::FETCH_INTO, $this); // fetch parametter
+
+			if ($selectStatement->execute()) {
+				$selectStatement->fetch(PDO::FETCH_INTO); // hydrate permission attribute
+			}
+		}
 	}

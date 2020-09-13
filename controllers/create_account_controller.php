@@ -17,16 +17,16 @@
 		$company = new Company; // instance of the class company
 
 		$successCreate = true;
-		$date = new DateTime();
+		$date = new DateTime(); // create new date with now
 		$date = $date->setTimezone(new DateTimeZone('Europe/Paris'));
-		$date = $date->add(new DateInterval('P2D'));
+		$date = $date->add(new DateInterval('P2D')); // add 2 days
 
 		// sanitize variables
 		$firstname = trim(filter_input(INPUT_POST, 'firstname', FILTER_SANITIZE_STRING));
 		$lastname = trim(filter_input(INPUT_POST, 'lastname', FILTER_SANITIZE_STRING));
 		$email = trim(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING));
 		$password = trim($_POST['password']);
-		$password = password_hash($password, PASSWORD_BCRYPT);
+		$password = password_hash($password, PASSWORD_BCRYPT); // crypt password
 
 		if (isset($_GET['type']) && $_GET['type'] == "employee") {
 				$code = trim(filter_input(INPUT_POST, 'code_company', FILTER_SANITIZE_NUMBER_INT));

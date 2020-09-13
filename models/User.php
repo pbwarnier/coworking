@@ -60,7 +60,7 @@
 			$insertStatement = $this->database->prepare($insert_SQL);
 
 			// binding values in request sql
-			$insertStatement->bindValue(':gender', $this->gender, PDO::PARAM_INT);
+			$insertStatement->bindValue(':gender', $this->gender, PDO::PARAM_STR);
 			$insertStatement->bindValue(':lastname', $this->lastname, PDO::PARAM_STR);
 			$insertStatement->bindValue(':firstname', $this->firstname, PDO::PARAM_STR);
 			$insertStatement->bindValue(':email', $this->email, PDO::PARAM_STR);
@@ -114,10 +114,50 @@
 
 			// binding values in request sql
 			$selectStatement->bindValue(':id', $this->id, PDO::PARAM_INT);
+			$selectStatement->setFetchMode(PDO::FETCH_INTO, $this); // fetch parametter
 
 			if ($selectStatement->execute()) {
-				$permission = $selectStatement->fetch(PDO::FETCH_OBJ);
-				return $permission;
+				$selectStatement->fetch(PDO::FETCH_INTO); // hydrate permission attribute
 			}
+		}
+
+		/**
+    	 * check token or security code of user
+     	 * @return int
+     	 */
+		public function checkToken()
+		{
+			$count_SQL = 'SELECT COUNT(`users_id`) FROM `users` WHERE `users_id` = :id AND `temporary_code` = :temporary_code';
+			$countStatement = $this->database->prepare($count_SQL);
+
+			// binding values in request sql
+			$countStatement->bindValue(':id', $this->id, PDO::PARAM_INT);
+			$countStatement->bindValue(':temporary_code', $this->temporary_code, PDO::PARAM_STR);
+
+			if ($countStatement->execute()) {
+				$nb_users = $countStatement->fetchColumn();
+				return $nb_users;
+			}
+		}
+
+		public function updateToken()
+		{
+			$update_SQL = 'UPDATE `users` SET `temporary_code` = :temporary_code WHERE `users_id` = :user_id';
+			$updateStatement = $this->database->prepare($update_SQL);
+
+			$updateStatement->bindValue(':id', $this->id, PDO::PARAM_INT);
+			$updateStatement->bindValue(':temporary_code', $this->temporary_code, PDO::PARAM_STR);
+
+			return $updateStatement->execute();
+		}
+
+		public function resetToken()
+		{
+			$update_SQL = 'UPDATE `users` SET `temporary_code` = null WHERE `users_id` = :user_id';
+			$updateStatement = $this->database->prepare($update_SQL);
+
+			$updateStatement->bindValue(':user_id', $this->id, PDO::PARAM_INT);
+
+			return $updateStatement->execute();
 		}
 	}
