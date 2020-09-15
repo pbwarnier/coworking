@@ -43,6 +43,44 @@
 		</ul>
 	</div>
 </nav>
+<?php if (isset($userInfo) && $userInfo->ban == 1) : ?>
+	<div class="modal fade" id="errorLogin" tabindex="-1" aria-labelledby="errorLogin" aria-hidden="true">
+  		<div class="modal-dialog modal-dialog-centered">
+    		<div class="modal-content border-0 rounded-lg">
+    			<div class="modal-body">
+    				<div class="mb-3 w-100 text-center">
+						<i class="fal fa-exclamation-circle fa-3x"></i>
+					</div>
+       				<p>
+       					<?= $errors['ban']; ?>
+       				</p>
+      			</div>
+    		</div>
+    	</div>
+	</div>
+<?php elseif (isset($inscription) && $inscription->access == 0) : ?>
+	<div class="modal fade" id="errorLogin" tabindex="-1" aria-labelledby="errorLogin" aria-hidden="true">
+  		<div class="modal-dialog modal-dialog-centered">
+    		<div class="modal-content border-0 rounded-lg">
+    			<div class="modal-body">
+    				<div class="mb-3 w-100 text-center">
+						<i class="fal fa-exclamation-circle fa-3x"></i>
+					</div>
+       				<p class="text-center font-weight-bold">
+       					<?= $errors['access']; ?>
+       				</p>
+       				<p>
+       					Vous n'avez pas reçu votre mail de validation ? Nous pouvons vous renvoyer un lien dès maintenant ! Il sera valide pendant 48 heures.
+       				</p>
+       				<div class="w-100 d-flex justify-content-center">
+       					<button class="mr-2 btn btn-primary" type="button">Renvoyer un email</button>
+       					<button type="ml-2 button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+       				</div>
+      			</div>
+    		</div>
+    	</div>
+	</div>
+<?php endif; ?>
 <!-- Main -->
 <div class="h-100 w-100 d-lg-flex">
 	<!-- Div to the left - with slogan -->
@@ -60,6 +98,11 @@
 				<div class="w-100 text-center">
 					<h2 class="mb-3 text-dark">Identifiez-vous</h2>
 				</div>
+				<?php if (isset($errors['login'])) : ?>
+					<div class="p-2 alert alert-danger" role="alert">
+						<i class="mr-2 far fa-exclamation-circle"></i><?= $errors['login']; ?>
+					</div>
+				<?php endif; ?>
 				<form action="authentification" method="post">
 					<div class="my-2 form-group">
 						<input class="px-3 py-2 w-100 border <?= isset($errors['code']) ? 'border-danger invalid-shadow' : '' ?>" type="text" name="code_company" maxlength="6" placeholder="Code entreprise" autocomplete="off">
@@ -67,7 +110,7 @@
 					</div>
 						<div class="my-2 form-group">
 						<input class="px-3 py-2 w-100 border <?= isset($errors['email']) ? 'border-danger invalid-shadow' : '' ?>" type="email" name="email" placeholder="Adresse email">
-						<?php if (isset($errors['password'])) { ?><div class="small text-danger"><?= $errors['password']; ?></div><?php } ?>
+						<?php if (isset($errors['email'])) { ?><div class="small text-danger"><?= $errors['email']; ?></div><?php } ?>
 					</div>
 					<div class="my-2 form-group">
 						<div class="w-100 d-flex border <?= isset($errors['password']) ? 'border-danger invalid-shadow' : '' ?>">

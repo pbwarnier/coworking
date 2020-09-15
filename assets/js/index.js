@@ -42,4 +42,8 @@ $(document).ready(function(){
 	    $('html, body').animate({scrollTop: $('#down').offset().top}, 1500);
 	    return false;
 	});
+
+	setTimeout(function(){
+		$("#errorLogin").modal('show');
+	}, 500)
 });

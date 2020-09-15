@@ -62,8 +62,28 @@
 			// binding values in request sql
 			$selectStatement->bindValue(':user_id', $this->user_id, PDO::PARAM_INT);
 
+			$interval = null;
+
 			if ($selectStatement->execute()) {
-				return $selectStatement->fetch(PDO::FETCH_OBJ);
+				$time = $selectStatement->fetch(PDO::FETCH_OBJ);
+				if (isset($time)) {
+					$interval = $time->interval;
+				}
+			}
+
+			return $interval;
+		}
+
+		public function checkAccess()
+		{
+			$select_SQL = 'SELECT `access` FROM `inscription` WHERE `users_id` = :user_id';
+			$selectStatement = $this->database->prepare($select_SQL);
+
+			$selectStatement->bindValue(':user_id', $this->user_id, PDO::PARAM_INT);
+			$selectStatement->setFetchMode(PDO::FETCH_INTO, $this);
+
+			if ($selectStatement->execute()) {
+				$selectStatement->fetch(PDO::FETCH_INTO);
 			}
 		}
 

@@ -160,4 +160,16 @@
 
 			return $updateStatement->execute();
 		}
+
+		public function selectAuth()
+		{
+			$select_SQL = 'SELECT `users_id`, `email`, `password`, `permission`, `ban`, `multi_step` FROM `users` WHERE `email` = :email';
+			$selectStatement = $this->database->prepare($select_SQL);
+
+			$selectStatement->bindValue(':email', $this->email, PDO::PARAM_STR);
+
+			if ($selectStatement->execute()) {
+				return $selectStatement->fetch(PDO::FETCH_OBJ);
+			}
+		}
 	}

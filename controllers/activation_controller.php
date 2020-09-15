@@ -13,7 +13,7 @@
 		$user = new User(['id' => $_GET['id'], 'temporary_code' => $_GET['token']]);
 		$inscription = new Inscription(['user_id' => $_GET['id']]);
 		$exist = $user->checkToken();
-		(int) $interval = $inscription->checkTimeToRegister();
+		$interval = $inscription->checkTimeToRegister();
 
 		if ($exist == 0 || $interval > 48) {
 			$error['token'] = 'Ce lien d\'activation n\'est plus valide';
@@ -26,7 +26,7 @@
 			if ($permission == 2) {
 				try {
 					$company = new Company(['users_id_manager' => $_GET['id']]);
-					$company->getCode(); // get company code
+					$company->getCodeWithManager(); // get company code
 					$user->database->beginTransaction(); // start transaction
 					$inscription->activateAccount();
 					$user->resetToken();
@@ -38,7 +38,7 @@
 				}
 
 				// create folders necessary for user
-				$pathList = array('/../users/'.$user->id, '/../users/'.$user->id.'/arrets_maladie', '/../users/'.$user->id.'/cloud', '/../users/'.$user->id.'/fiches_de_paie', '/../users/'.$user->id.'/fiches_de_paie', '/../users/'.$user->id.'/plannings', '/../users/'.$user->id.'/img');
+				$pathList = array('../users/'.$user->id, '../users/'.$user->id.'/arrets_maladie', '../users/'.$user->id.'/cloud', '../users/'.$user->id.'/fiches_de_paie', '../users/'.$user->id.'/conges', '../users/'.$user->id.'/plannings', '../users/'.$user->id.'/img');
 
 				foreach ($pathList as $path) {
 					if (!mkdir($path, 0777, true)) { // create folder

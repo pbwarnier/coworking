@@ -92,17 +92,34 @@
 				$this->id = $this->database->lastInsertId();
 			}
 		}
-
-		function getCode(){
+		/**
+    	 * select company code
+     	 * @return int
+     	 */
+		public function getCodeWithManager(){
 			$select_SQL = 'SELECT `company_code` FROM `company` WHERE `users_id_manager` = :users_id_manager';
 			$selectStatement = $this->database->prepare($select_SQL);
 
-			// binding values in request sql
 			$selectStatement->bindValue(':users_id_manager', $this->users_id_manager, PDO::PARAM_INT);
-			$selectStatement->setFetchMode(PDO::FETCH_INTO, $this); // fetch parametter
+			$selectStatement->setFetchMode(PDO::FETCH_INTO, $this);
 
 			if ($selectStatement->execute()) {
-				$selectStatement->fetch(PDO::FETCH_INTO); // hydrate permission attribute
+				$selectStatement->fetch(PDO::FETCH_INTO);
+			}
+		}
+		/**
+    	 * select company code
+     	 * @return int
+     	 */
+		public function getCodeWithEmployee($users_id){
+			$select_SQL = 'SELECT `company`.`company_code` FROM `company` INNER JOIN `users` ON `company`.`company_id` = `users`.`company_id` WHERE `users`.`users_id` = :users_id';
+			$selectStatement = $this->database->prepare($select_SQL);
+
+			$selectStatement->bindValue(':users_id', $users, PDO::PARAM_INT);
+			$selectStatement->setFetchMode(PDO::FETCH_INTO, $this);
+
+			if ($selectStatement->execute()) {
+				$selectStatement->fetch(PDO::FETCH_INTO);
 			}
 		}
 	}
