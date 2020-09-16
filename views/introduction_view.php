@@ -60,16 +60,16 @@
 						<div class="font-weight-bold text-dark">Pierre-Baptiste Warnier</div>
 					</div>
 					<div class="my-2 w-100">
-						<input id="birthdate" class="px-3 py-2 w-100 border <?= isset($errors['phone']) ? 'border-danger invalid-shadow' : '' ?>" type="text" name="birthdate" placeholder="Votre date de naissance" autocomplete="off">
+						<input id="birthdate" class="px-3 py-2 w-100 border <?= isset($errors['birthdate']) ? 'border-danger invalid-shadow' : '' ?>" type="text" name="birthdate" placeholder="Votre date de naissance" autocomplete="off">
 						<?php if (isset($errors['birthdate'])) { ?><div class="small text-danger"><?= $errors['birthdate']; ?></div><?php } ?>
 					</div>
 					<div class="my-2 w-100">
-						<input id="localisation" class="px-3 py-2 w-100 border" type="text" name="localisation" placeholder="Votre ville" autocomplete="off">
+						<input id="localisation" class="px-3 py-2 w-100 border" type="text" placeholder="Votre ville" autocomplete="off">
 						<input type="hidden" name="city">
 						<small class="text-secondary font-italic">Entrez la ville ou le code postal</small>
 					</div>
 					<div class="my-2 w-100">
-						<input class="px-3 py-2 w-100 border <?= isset($errors['phone']) ? 'border-danger invalid-shadow' : '' ?>" type="tel" name="phone" placeholder="Votre numéro de portable" autocomplete="off">
+						<input class="px-3 py-2 w-100 border <?= isset($errors['phone']) ? 'border-danger invalid-shadow' : '' ?>" type="tel" name="phone" placeholder="Votre numéro de téléphone" autocomplete="off">
 						<?php if (isset($errors['phone'])) { ?><div class="small text-danger"><?= $errors['phone']; ?></div><?php } ?>
 					</div>
 				</div>

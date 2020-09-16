@@ -47,7 +47,7 @@ nav a:hover{ color: #ffffff; }
 }
 
 .preview{
-	background-image: url('/coworking/assets/pictures/user.png');
+	background-image: url('/assets/pictures/user.png');
 	background-size: cover;
   	background-position: center;
 	position: absolute;

@@ -5,6 +5,7 @@
 
 	include dirname(__FILE__).'/../utils/image_treatment.php';
 	include dirname(__FILE__).'/../utils/get_scriptname.php';
+	require_once dirname(__FILE__).'/../models/User.php';
 
 	$isSubmitted = false;
 	$personalPic = false;
@@ -15,7 +16,7 @@
 
 		if (!empty($_FILES["userPicture"]['name']) && !empty($_FILES['userPicture']['tmp_name']) && $_FILES['userPicture']['size'] > 0) {
 			$personalPic = true;
-			$target_dir = "../users/1/img/";
+			$target_dir = '../users/'.$_SESSION['user']['id'].'/img/';
 			$target_file = $target_dir.basename($_FILES["userPicture"]["name"]);
 			$imgFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
@@ -42,7 +43,7 @@
 			}
 		}
 		else {
-			$target_file = '/coworking/assets/pictures/user.png';
+			$target_file = 'assets/pictures/user.png';
 		}
 
 		$birthdate = trim(filter_input(INPUT_POST, 'birthdate', FILTER_SANITIZE_STRING));
@@ -69,11 +70,14 @@
     	if (!empty($phone)) {
     		$phone = trim(strip_tags($_POST['phone']));
 
-    		if (!preg_match('/^(?:\+33|0033|0)[6-7]((?:([\-\/\s\.])?[0-9]){2}){4}$/', $phone)) {
+    		if (!preg_match('/^(?:\+33|0033|0)[1-79]((?:([\-\/\s\.])?[0-9]){2}){4}$/', $phone)) {
 	    		$errors['phone'] = 'Le format de votre numéro n\'est valide';
 	    	}
-	    	elseif (substr($phone, 0, 1) == '+') {
+	    	else {
 	    		$phone = str_replace('+33', '0', $phone);
+		    	$phone = str_replace(' ', '', $phone);
+		    	$phone = str_replace('.', '', $phone);
+		    	$phone = str_replace('-', '', $phone);
 	    	}
 	    }
 
@@ -122,6 +126,22 @@
 			move_uploaded_file($_FILES["userPicture"]["tmp_name"], $target_file);
 			resize_crop_image(1000, 1000, $target_file, $target_dir.$path['filename'].'_resize.'.$path['extension']);
 		}
+
+		$arrayUser = array(
+			'id' => $_SESSION['user']['id'],
+			'img' => $target_dir.$path['filename'].'_resize.'.$path['extension'],
+			'birthdate' => $birthdate,
+			'phone_number' => $phone,
+			'city' => $city,
+			'biography' => $biography
+		);
+
+		$arrayWork = array(
+			'occupation' => $occupation,
+			'start' => $date,
+			'company_id' => $_SESSION['user']['company_id'],
+			'users_id' => $_SESSION['user']['id']
+		);
 
 		header('location: news');
 		exit();

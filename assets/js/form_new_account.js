@@ -151,9 +151,12 @@ function searchCity(zipcode){
 	// check the length of stings
 	if (zipcode.length > 4) {
 		$.ajax({
-			url: '/coworking/controllers/search_city_controller.php',
+			url: 'controllers/search_city_controller.php',
 			type: 'POST',
-			data: { 'zipcode': zipcode } // name and value for the $_POST
+			data: {
+				'zipcode': zipcode,
+				'form' : 'create'
+			} // name and value for the $_POST
 		})
 		.done(function(list_city){
 			list_city = $.parseJSON(list_city); // construct strings with the JSON response
@@ -214,7 +217,7 @@ $("#subscribe").click(function(event){
 	var data = $("#subscribeForm").serialize();
 	// get the form type and add it to the serialized chain
 	data = data+encodeURI('&type='+$(this).data('target'));
-	$.post('/coworking/controllers/form_new_account_controller.php', data, function(response){
+	$.post('controllers/form_new_account_controller.php', data, function(response){
 		// drop element which have text-danger class
 		$(".text-danger").remove();
 		$("input").removeClass('border-danger').removeClass('invalid-shadow');

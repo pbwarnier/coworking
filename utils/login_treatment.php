@@ -3,6 +3,7 @@
 	require_once dirname(__FILE__).'/../models/Company.php';
 	require_once dirname(__FILE__).'/../models/Inscription.php';
 	require_once dirname(__FILE__).'/../models/History.php';
+	require_once dirname(__FILE__).'/../models/Device.php';
 	require_once dirname(__FILE__).'/../utils/info_connexion.php';
 
 	$isSubmitted = false;
@@ -94,21 +95,35 @@
 			'os' => $os,
 			'browser' => $browser,
 			'ip' => $ip,
-			'mac' => $mac
+			'mac' => $mac,
+			'users_id' => $userInfo->users_id
 		);
 
 		$history = new History($historyArray);
+		$history->saveLogin();
+		$nb_connexion = $history->countLogin();
+		$company->getId();
 
-		var_dump($history);
 		// create session with id, login and permissions
 		// create cookies for save session when user close the window
-		/* $_SESSION['user'] = ['auth' => true, 'id' => $userInfo->users_id, 'login' => $email, 'permission' => $userInfo->permission];
+		$_SESSION['user'] = ['auth' => true, 'id' => $userInfo->users_id, 'login' => $email, 'permission' => $userInfo->permission, 'company_id' =>  $company->company_id];
 		$encrypted_id = openssl_encrypt($_SESSION['user']['id'], 'AES-128-ECB', CRYPT_KEY); // crypt ID
 		$encrypted_login = openssl_encrypt($_SESSION['user']['login'], 'AES-128-ECB', CRYPT_KEY); // crypt email
 		$encrypted_permission = openssl_encrypt($_SESSION['user']['permission'], 'AES-128-ECB', CRYPT_KEY);// crypt permission
+		$encrypted_company = openssl_encrypt($_SESSION['user']['company_id'], 'AES-128-ECB', CRYPT_KEY);
 		setcookie('user_id', $encrypted_id, time() + 365*24*3600, null, null, false, true);
 		setcookie('user_login', $encrypted_login, time() + 365*24*3600, null, null, false, true);
 		setcookie('user_permission', $encrypted_permission, time() + 365*24*3600, null, null, false, true);
-		header('location: introduction');
-		exit(); */
+		setcookie('company_id', $encrypted_company, time() + 365*24*3600, null, null, false, true);
+
+		if ($nb_connexion != false && $nb_connexion == 1) {
+			$device = new Device($history->id);
+			$device->saveDevice();
+			header('location: introduction');
+		}
+		elseif ($nb_connexion != false && $nb_connexion > 1) {
+			header('location: news');
+		}
+
+		exit();
 	}

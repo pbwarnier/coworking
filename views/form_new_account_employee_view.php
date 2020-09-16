@@ -102,9 +102,9 @@
 		        <div class="my-2 font-italic text-secondary small text-justify">
 		        	En vous inscrivant vous acceptez les conditions générales d'utilisations. Nous vous invitons à consulter notre politique de confidentialité ainsi que notre potlitique de recueil des données via les cookies.
 		        </div>
-				<button id="subscribe" class="mt-2 px-3 py-2 btn-customized" type="submit" name="subscribe" data-target="employee">Créer mon compte Co'working</button>
+				<button id="subscribe" class="mt-2 px-3 py-2 btn-customized" type="button" name="subscribe" data-target="employee">Créer mon compte Co'working</button>
 			</form>
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="/coworking/assets/js/form_new_account.js"></script>
+<script type="text/javascript" src="assets/js/form_new_account.js"></script>

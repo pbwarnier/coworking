@@ -126,7 +126,7 @@
       			<p>
       				Vous venez de créer le réseau Co\'working pour l\'entreprise <strong>'.$company->company_name.'</strong>.
       				<br>
-      				Pour activer votre compte et obtenir le code d\'identification de votre entreprise, cliquez sur le lien suivant : <a href="localhost/coworking/activation-'.$user->id.'-'.$token.'">Activer mon compte</a>
+      				Pour activer votre compte et obtenir le code d\'identification de votre entreprise, cliquez sur le lien suivant : <a href="coworking.fr/activation-'.$user->id.'-'.$token.'">Activer mon compte</a>
       			</p>
       			<p>
       				L\'équipe Co\'working

@@ -15,7 +15,6 @@
 		private $birthdate;
 		private $phone_number;
 		private $biography;
-		private $image;
 		private $city;
 		private $permission;
 		private $ban;

@@ -37,7 +37,7 @@ $(document).ready(function(){
 
 	function loadForm(statut) {
 		// send type of user with GET method in ajax
-		$.get('/coworking/controllers/form_new_account_controller.php?type='+statut, function(response){
+		$.get('controllers/form_new_account_controller.php?type='+statut, function(response){
 			$("#contain").html(response);
 		})
 	}

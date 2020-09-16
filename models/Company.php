@@ -92,6 +92,7 @@
 				$this->id = $this->database->lastInsertId();
 			}
 		}
+
 		/**
     	 * select company code
      	 * @return int
@@ -107,6 +108,7 @@
 				$selectStatement->fetch(PDO::FETCH_INTO);
 			}
 		}
+
 		/**
     	 * select company code
      	 * @return int
@@ -120,6 +122,19 @@
 
 			if ($selectStatement->execute()) {
 				$selectStatement->fetch(PDO::FETCH_INTO);
+			}
+		}
+
+		public function getId()
+		{
+			$select_SQL = 'SELECT `company_id` FROM `company` WHERE `company_code` = :company_code';
+			$selectStatement = $this->database->prepare($select_SQL);
+
+			$selectStatement->bindValue(':company_code', $this->company_code, PDO::PARAM_INT);
+
+			if ($selectStatement->execute()) {
+				$companyInfo = $selectStatement->fetch(PDO::FETCH_OBJ);
+				$this->company_id = $companyInfo->company_id;
 			}
 		}
 	}

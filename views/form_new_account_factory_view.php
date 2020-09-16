@@ -172,11 +172,11 @@
 			        </div>
 			        <div class="mt-2 w-100 d-flex">
 			            <button class="mr-2 px-3 py-2 rounded-pill btn-light border border-secondary" type="button" name="prev" onclick="last_step(3)"><i class="fas fa-arrow-left"></i></button>
-			            <button id="subscribe" class="px-3 py-2 btn-customized" type="submit" name="subscribe" data-target="factory">Enregistrer mon entreprise</button>
+			            <button id="subscribe" class="px-3 py-2 btn-customized" type="button" name="subscribe" data-target="factory">Enregistrer mon entreprise</button>
 			        </div>
 			    </div>
 			</form>
 		</div>
 	</div>
 </div>
-<script type="text/javascript" src="/coworking/assets/js/form_new_account.js"></script>
+<script type="text/javascript" src="assets/js/form_new_account.js"></script>

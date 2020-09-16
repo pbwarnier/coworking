@@ -61,7 +61,7 @@ $(document).ready(function(){
 	// delete input value and change blackground-image in the preview
 	$("#remove-btn").click(function(){
 		$("#data-preview").val("");
-		$(".preview").css('background-image', 'url("/coworking/assets/pictures/user.png")');
+		$(".preview").css('background-image', 'url("/assets/pictures/user.png")');
 		$("button[name='skip']").removeClass('d-none');
 		$("#remove-btn").addClass('d-none');
 		$("button[name='next']").addClass('d-none');
@@ -188,4 +188,65 @@ $(document).ready(function(){
 		var string = $("textarea[name='biography']").val();
 		$("#compteur").text(string.length);
 	});
-});
+
+	function searchCity(chain){
+		// check the length of stings
+		$("#resultSearch").remove();
+		if (chain.length > 1) {
+			var width = $("#localisation").outerWidth();
+			$("#localisation").after('<div id="resultSearch" class="mt-1 list-group position-absolute shadow"></div>');
+			$("#resultSearch").css("width", width+"px");
+			$("#resultSearch").css("max-height", "270px");
+			$.ajax({
+				url: '/controllers/search_city_controller.php',
+				type: 'POST',
+				data: {
+					'localisation': chain,
+					'form' : 'introduction'
+				} // name and value for the $_POST
+			})
+			.done(function(list_city){
+				list_city = $.parseJSON(list_city); // construct strings with the JSON response
+				if (list_city != 0) {
+					$.each(list_city, function(key, value){
+						var button = $("<button></button>") // create option
+						.addClass("list-group-item") // add class selector
+						.addClass("list-group-item-action")
+						.attr("type", "button")
+	        			.attr("data-city", value.ville_id) // add an attribute value with the city id
+	        			.text(value.ville_nom_reel+' ('+value.ville_departement+')'); // add text in the button
+						$("#resultSearch").append(button); // add button list in the list group
+					})
+				}
+				else{
+					var div = $("<div></div>") // create option
+					.addClass("list-group-item") // add class selector
+	        		.html('Aucun résulat pour <strong>'+chain+'</strong>'); // add text in the div
+					$("#resultSearch").append(div); // add div list in the list group
+				}
+			})
+		}
+	}
+
+	$("#localisation").keyup(function(){
+		var localisation = $(this).val();
+		localisation = localisation.replace(/(<([^>]+)>)/gi, ""); // delete HTML and PHP tags
+		searchCity(localisation);
+	}).on(function(){
+		var localisation = $(this).val();
+		localisation = localisation.replace(/(<([^>]+)>)/gi, "");
+		searchCity(localisation);
+	}).focus(function(){
+		var localisation = $(this).val();
+		localisation = localisation.replace(/(<([^>]+)>)/gi, ""); // delete HTML and PHP tags
+		searchCity(localisation);
+	})
+
+	$("body").on('click', '.list-group-item-action', function(){
+		var city_number = $(this).attr("data-city");
+		var city_name = $(this).text();
+		$("#localisation").val(city_name);
+		$("input[name='city']").val(city_number);
+		$("#resultSearch").remove();
+	})
+})
