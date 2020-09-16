@@ -171,4 +171,23 @@
 				return $selectStatement->fetch(PDO::FETCH_OBJ);
 			}
 		}
+
+		/**
+    	 * update user's informations in introduction
+     	 * @return boolean
+     	 */
+		public function update()
+		{
+			$update_SQL = 'UPDATE `users` SET `img` = :img, `birthdate` = :birthdate, `phone_number` = :phone_number, `city` = :city, `biography` = :biography WHERE `users_id` = :users_id';
+			$updateStatement = $this->database->prepare($update_SQL);
+
+			$updateStatement->bindValue(':img', $this->img, PDO::PARAM_STR);
+			$updateStatement->bindValue(':birthdate', $this->birthdate, PDO::PARAM_STR);
+			$updateStatement->bindValue(':city', $this->city, PDO::PARAM_INT);
+			$updateStatement->bindValue(':phone_number', $this->phone_number, PDO::PARAM_STR);
+			$updateStatement->bindValue(':biography', $this->biography, PDO::PARAM_STR);
+			$updateStatement->bindValue(':users_id', $this->id, PDO::PARAM_INT);
+
+			return $updateStatement->execute();
+		}
 	}

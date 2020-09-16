@@ -46,15 +46,27 @@ $(document).ready(function(){
 	})
 
 	$("input[name='fileToUpload']").change(function(){
-		if (this.files[0].name.length > 20) {
-			var fileSplit = this.files[0].name.split('.');
-			var fileExt = fileSplit.pop();
-			var fileName = fileSplit.join('').substr(0, 20)+'[...].'+fileExt;
-			$("#file-name").html(fileName);
-		}
-		else{
-			$("#file-name").html(this.files[0].name);
-		}
+		var file = $(this).val();
+		var ext = file.split(".");
+    	ext = ext[ext.length - 1].toLowerCase();      
+    	var arrayExtensions = ["jpg" , "jpeg", "png", "gif", "txt", "doc", "docx", "pdf", "xls", "zip"];
+
+    	// lastIndexOf -1 return error
+	    if (arrayExtensions.lastIndexOf(ext) == -1) {
+	        alert("Le format de votre pièce jointe n'est pas acceptée.\nExtensions prises en charge pour les images :\n-> jpg, jpeg, png et gif\nExtension prises en charge pour les documents :\n-> txt, doc, docx, pdf, xls et xlsx\nPour tout autres format, veuillez compresser votre fichier en zip.");
+	        $(this).val('');
+	    }
+	    else{
+	    	if (this.files[0].name.length > 20) {
+				var fileSplit = this.files[0].name.split('.');
+				var fileExt = fileSplit.pop();
+				var fileName = fileSplit.join('').substr(0, 20)+'[...].'+fileExt;
+				$("#file-name").html(fileName);
+			}
+			else{
+				$("#file-name").html(this.files[0].name);
+			}
+	    }
 	})
 
 	$("button[name='happy'], button[name='bad']").click(function(){
@@ -62,6 +74,17 @@ $(document).ready(function(){
 		setTimeout(function(){
 			$("#temporary-answer").fadeIn();
 		}, 400)
+	})
+
+	$("button[name='posting']").click(function(){
+		var text = $("textarea[name='edit-post']").val();
+		var file = $("input[name='fileToUpload']").val();
+		var errors = false;
+
+		if (text.length == 0) {
+			alert('Pour poster, rédigez un message');
+			errors = true;
+		}
 	})
 })
 

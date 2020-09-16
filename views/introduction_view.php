@@ -44,6 +44,12 @@
 						<div class="alert alert-danger" role="alert">
 							<?= $errors['userPicture']; ?>
 						</div>
+					<?php elseif (isset($erros['save'])) : ?>
+						<div class="alert alert-danger" role="alert">
+							<?= $errors['save']; ?>
+							<br>
+							Nous allons vous rediriger dans un instant...
+						</div>
 					<?php endif; ?>
 					<label class="px-3 py-2 w-100 custom-file-upload">
 						<input id="data-preview" data-preview=".preview" name="userPicture" type="file" accept="image/*">

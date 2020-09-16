@@ -6,6 +6,7 @@
 	include dirname(__FILE__).'/../utils/image_treatment.php';
 	include dirname(__FILE__).'/../utils/get_scriptname.php';
 	require_once dirname(__FILE__).'/../models/User.php';
+	require_once dirname(__FILE__).'/../models/Work.php';
 
 	$isSubmitted = false;
 	$personalPic = false;
@@ -43,7 +44,7 @@
 			}
 		}
 		else {
-			$target_file = 'assets/pictures/user.png';
+			$target_file = '/assets/pictures/user.png';
 		}
 
 		$birthdate = trim(filter_input(INPUT_POST, 'birthdate', FILTER_SANITIZE_STRING));
@@ -66,10 +67,9 @@
     	}
 
     	$city = trim(filter_input(INPUT_POST, 'city', FILTER_SANITIZE_NUMBER_INT));
-    	
-    	if (!empty($phone)) {
-    		$phone = trim(strip_tags($_POST['phone']));
 
+    	$phone = trim(strip_tags($_POST['phone']));
+    	if (!empty($phone)) {
     		if (!preg_match('/^(?:\+33|0033|0)[1-79]((?:([\-\/\s\.])?[0-9]){2}){4}$/', $phone)) {
 	    		$errors['phone'] = 'Le format de votre numéro n\'est valide';
 	    	}
@@ -85,7 +85,7 @@
 	    if (empty($occupation)){
 	        $errors['occupation'] = 'Veuillez préciser votre profession actuelle';
 	    }
-	    elseif (!preg_match('/^[a-zéèîïêëç]+((?:\-|\s)[a-zéèéîïêëç]+)?$/i', $occupation)) {
+	    elseif (!preg_match('/^[a-zA-Zéèîïêëçô]+((?:\-|\s)[a-zA-Zéèéîïêëçô]+){0,}$/i', $occupation)) {
 	        $errors['occupation'] = 'Veuillez saisir une donnée valide';
 	    }
 
@@ -125,26 +125,47 @@
 			$path = pathinfo($target_file);
 			move_uploaded_file($_FILES["userPicture"]["tmp_name"], $target_file);
 			resize_crop_image(1000, 1000, $target_file, $target_dir.$path['filename'].'_resize.'.$path['extension']);
+			if (file_exists($target_dir.$path['filename'].'_resize.'.$path['extension'])) {
+				$target_file = $target_dir.$path['filename'].'_resize.'.$path['extension'];
+			}
+			else{
+				$target_file = '/assets/pictures/user.png';
+			}
+		}
+		else{
+			$target_file = '/assets/pictures/user.png';
 		}
 
-		$arrayUser = array(
+		$userArray = array(
 			'id' => $_SESSION['user']['id'],
-			'img' => $target_dir.$path['filename'].'_resize.'.$path['extension'],
+			'img' => $target_file,
 			'birthdate' => $birthdate,
 			'phone_number' => $phone,
 			'city' => $city,
 			'biography' => $biography
 		);
 
-		$arrayWork = array(
+		$workArray = array(
 			'occupation' => $occupation,
 			'start' => $date,
 			'company_id' => $_SESSION['user']['company_id'],
 			'users_id' => $_SESSION['user']['id']
 		);
 
-		header('location: news');
-		exit();
+		$user = new User($userArray);
+		$work = new Work($workArray);
+
+		$updateSuccess = $user->update();
+		$insertSuccess = $work->insert();
+
+		if ($updateSuccess == true && $insertSuccess == true) {
+			header('location: news');
+			exit();
+		}
+		else{
+			header('refresh: 10, url=news');
+			$errors['save'] = 'Un problème est survenu pendant la modification de votre profil, contactez l\'administrateur';
+		}
 	}
 
 	$title = 'Commencez par compléter votre profil Co\'working';
