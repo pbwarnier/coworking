@@ -1,5 +1,6 @@
 <?php
 	require_once dirname(__FILE__).'/../utils/Database.php';
+	
 	/**
 	 * class for manage users
 	 */

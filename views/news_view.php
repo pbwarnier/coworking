@@ -39,7 +39,7 @@
 									  		<input class="d-none" name="fileToUpload" type="file" accept="all" disabled="disabled">
 											<span id="file-name"><i class="fal fa-paperclip"></i></span>
 										</label>
-										<button class="ml-1 btn-customized-alternativ rounded-pill" type="button" name="posting" disabled="disabled">Publier</button>
+										<button class="ml-1 btn-customized-alternativ rounded-pill posting" type="button" name="posting" disabled="disabled">Publier</button>
 									</div>
 								</form>
 							</div>
@@ -47,7 +47,7 @@
 					</div>
 					<!-- Temporary content -->
 					<div id="temporary-content" class="mt-3 mb-3 w-100 d-md-flex">
-						<div class="mr-md-2 p-3 w-100 bg-light shadow-sm border rounded d-flex">
+						<div class="mr-md-2 p-3 w-100 bg-light shadow-sm border rounded-lg d-flex">
 							<div class="my-auto">
 								<div id="temporary-issue">
 									<div class="w-100 text-center">
@@ -78,7 +78,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="ml-md-2 mt-md-0 mt-3 p-3 w-100 bg-light shadow-sm border rounded d-flex">
+						<div class="ml-md-2 mt-md-0 mt-3 p-3 w-100 bg-light shadow-sm border rounded-lg d-flex">
 							<div class="my-auto w-100">
 								<div class="w-100 d-flex">
 									<div class="p-3 w-100 text-center text-dark">
@@ -98,8 +98,17 @@
 							</div>
 						</div>
 					</div>
+					<?php if (isset($nb_post) && $nb_post == 0 && empty($_COOKIE['close-info-box'])) : ?>
+					<div id="info-box" class="my-3 p-3 w-100 bg-info shadow-sm border rounded-lg">
+						<div class="mr-2 my-auto text-white d-md-block d-none"><i class="fal fa-exclamation-circle fa-5x"></i></div>
+						<div class="ml-2">
+							<p class="text-white text-justify">Vous n'avez pas encore publié dans le fil d'actualité. Postez votre premier message pour vous présenter, par exemple.</p>
+							<div class="w-100 d-flex justify-content-end"><button id="writing-post" class="btn btn-light rounded-pill">Rédiger un message</button><button id="close-info" class="ml-2 btn btn-outline-light rounded-pill">Fermer</button></div>
+						</div>
+					</div>
+					<?php endif; ?>
 					<!-- Posts -->
-					<div class="my-3 w-100 shadow-sm border rounded">
+					<div class="my-3 w-100 shadow-sm border rounded-lg">
 						<div class="p-3 w-100 d-flex">
 							<a class="mr-3" href="profil-1"><img id="userpic" class="rounded-circle border border-light" src="assets/pictures/user.png" alt="userpic"></a>
 							<div class="w-100">
@@ -163,7 +172,7 @@
 						</div>
 					</div>
 					<!-- Posts image-->
-					<div class="my-3 w-100 shadow-sm border rounded">
+					<div class="my-3 w-100 shadow-sm border rounded-lg">
 						<div class="p-3 w-100 d-flex">
 							<a class="mr-3" href="#"><img id="userpic" class="rounded-circle border border-light" src="assets/pictures/user.png" alt="userpic"></a>
 							<div class="w-100">

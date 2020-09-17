@@ -159,6 +159,8 @@ textarea[name="edit-post"]:focus{
 #temporary-issue span{ white-space: nowrap; }
 #temporary-answer{ display: none; }
 
+#info-box{ display: flex; }
+
 @media screen and (max-width: 1100px){
 	.message-box{
 		display: none;
@@ -184,6 +186,10 @@ textarea[name="edit-post"]:focus{
 		height: 100%;
 		background-color: #efefef;
 	}
+}
+
+@media screen and (max-width: 767px){
+	#info-box{ display: block; }
 }
 
 @media screen and (max-width: 724px){

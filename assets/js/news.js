@@ -16,10 +16,10 @@ $(document).ready(function(){
 		}
 	})
 
-	$("textarea[name='edit-post']").click(function(){
+	$("textarea[name='edit-post'], #writing-post").click(function(){
 		zoom = true;
 		$(".news").scrollTop(0);
-		$(this).css('height', '114px');
+		$("textarea[name='edit-post']").css('height', '114px');
 		$("#post-contain").removeClass('post-normal').addClass('post-focus');
 		$("#form-contain").removeClass('w-100').css({
 			'margin-top':+txt_offset.top,
@@ -57,6 +57,8 @@ $(document).ready(function(){
 	        $(this).val('');
 	    }
 	    else{
+	    	$("button[name='posting']").removeClass("posting");
+	    	$("button[name='posting']").attr("type", "submit");
 	    	if (this.files[0].name.length > 20) {
 				var fileSplit = this.files[0].name.split('.');
 				var fileExt = fileSplit.pop();
@@ -69,6 +71,52 @@ $(document).ready(function(){
 	    }
 	})
 
+	$("body").on('click', '.posting', function(){
+		var text = $("textarea[name='edit-post']").val();
+		var file = $("input[name='fileToUpload']").val();
+		text = text.trim();
+		text = text.replace(/(<([^>]+)>)/gi, "");
+
+		if (text.length == 0) {
+			alert("Pour poster, rédigez un message");
+		}
+		else{
+			$.ajax({
+				url: 'controllers/new_posting_controller.php',
+				type: 'POST',
+				data: { 'message': text }
+			})
+			.done(function(response){
+				var infoBox = $("#info-box").width();
+				if (infoBox > 0) {
+					$("#info-box").fadeOut();
+					$("temporary-content").after(response);
+					zoom = false;
+					$("textarea[name='edit-post']").val('');
+					$("textarea[name='edit-post']").removeAttr('style');
+					$("#post-contain").removeClass('post-focus').addClass('post-normal');
+					$("#form-contain").removeAttr('style').addClass('w-100');
+					$("#temporary-content").removeAttr('style').addClass('mt-3');
+					$("#attachment").removeClass('btn-customized-alternativ').addClass('label-disabled');
+					$("button[name='posting'], input[name='fileToUpload']").attr('disabled', 'disabled');
+					$(".close_zoom").addClass('d-none');
+				}
+				else{
+					$("temporary-content").after(response);
+					zoom = false;
+					$("textarea[name='edit-post']").val('');
+					$("textarea[name='edit-post']").removeAttr('style');
+					$("#post-contain").removeClass('post-focus').addClass('post-normal');
+					$("#form-contain").removeAttr('style').addClass('w-100');
+					$("#temporary-content").removeAttr('style').addClass('mt-3');
+					$("#attachment").removeClass('btn-customized-alternativ').addClass('label-disabled');
+					$("button[name='posting'], input[name='fileToUpload']").attr('disabled', 'disabled');
+					$(".close_zoom").addClass('d-none');
+				}
+			})
+		}
+	})
+
 	$("button[name='happy'], button[name='bad']").click(function(){
 		$("#temporary-issue").fadeOut();
 		setTimeout(function(){
@@ -76,15 +124,15 @@ $(document).ready(function(){
 		}, 400)
 	})
 
-	$("button[name='posting']").click(function(){
-		var text = $("textarea[name='edit-post']").val();
-		var file = $("input[name='fileToUpload']").val();
-		var errors = false;
-
-		if (text.length == 0) {
-			alert('Pour poster, rédigez un message');
-			errors = true;
-		}
+	$("#close-info").click(function(){
+		$.ajax({
+			url: '',
+			type: 'POST',
+			data: { 'close-info-box': 1 } // name and value for the $_POST
+		})
+		.done(function(){
+			$("#info-box").fadeOut();
+		})
 	})
 })
 
