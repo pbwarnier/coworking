@@ -38,7 +38,7 @@
 				}
 
 				// create folders necessary for user
-				$pathList = array('../users/'.$user->id, '../users/'.$user->id.'/arrets_maladie', '../users/'.$user->id.'/cloud', '../users/'.$user->id.'/fiches_de_paie', '../users/'.$user->id.'/conges', '../users/'.$user->id.'/plannings', '../users/'.$user->id.'/img');
+				$pathList = array('../users/'.$user->id, '../users/'.$user->id.'/arrets_maladie', '../users/'.$user->id.'/cloud', '../users/'.$user->id.'/fiches_de_paie', '../users/'.$user->id.'/conges', '../users/'.$user->id.'/plannings', '../users/'.$user->id.'/img', '../users/'.$user->id.'/publications');
 
 				foreach ($pathList as $path) {
 					if (!mkdir($path, 0777, true)) { // create folder

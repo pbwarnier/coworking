@@ -108,7 +108,7 @@
 						<input class="px-3 py-2 w-100 border <?= isset($errors['code']) ? 'border-danger invalid-shadow' : '' ?>" type="text" name="code_company" maxlength="6" placeholder="Code entreprise" autocomplete="off">
 						<?php if (isset($errors['code'])) { ?><div class="small text-danger"><?= $errors['code']; ?></div><?php } ?>
 					</div>
-						<div class="my-2 form-group">
+					<div class="my-2 form-group">
 						<input class="px-3 py-2 w-100 border <?= isset($errors['email']) ? 'border-danger invalid-shadow' : '' ?>" type="email" name="email" placeholder="Adresse email">
 						<?php if (isset($errors['email'])) { ?><div class="small text-danger"><?= $errors['email']; ?></div><?php } ?>
 					</div>

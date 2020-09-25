@@ -24,8 +24,8 @@
 			$errors['code'] = 'Veuillez entrer un code à 6 chiffres';
 		}
 
-		if (empty ($email)) {
-			$errors['email'] = 'Veuillez saisie votre adresse email';
+		if (empty($email)) {
+			$errors['email'] = 'Veuillez saisir votre adresse email';
 		}
 		elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			$errors['email'] = 'Votre adresse email n\'est pas dans un format correcte';

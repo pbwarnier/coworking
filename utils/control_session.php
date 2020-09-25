@@ -12,7 +12,7 @@
 			$decrypted_login = openssl_decrypt($_COOKIE['user_login'], 'AES-128-ECB', $key); // decrypt login
 			$decrypted_permission = openssl_decrypt($_COOKIE['user_permission'], 'AES-128-ECB', $key); // decrypt permission
 			$decrypted_company = openssl_decrypt($_COOKIE['company_id'], 'AES-128-ECB', $key);
-			$infoSession = ['auth' => true, 'id' => $decrypted_id, 'login' => $decrypted_login, 'permission' => $decrypted_permission]; // session informations
+			$infoSession = ['auth' => true, 'id' => $decrypted_id, 'login' => $decrypted_login, 'permission' => $decrypted_permission, 'company_id' => $decrypted_company]; // session informations
 			$_SESSION['user'] = $infoSession;
 			header('location: news');
 			exit();

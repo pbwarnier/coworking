@@ -96,4 +96,17 @@
 
 			return $updateStatement->execute();
 		}
+
+		public function countNewers()
+		{
+			$count_SQL = 'SELECT COUNT(`inscription_id`) FROM `inscription` WHERE `DATE` = CURRENT_DATE AND `company_id` = :company_id';
+			$countStatement = $this->database->prepare($count_SQL);
+
+			$countStatement->bindValue(':company_id', $this->company_id, PDO::PARAM_INT);
+
+			if ($countStatement->execute()) {
+				$nb_newers = $countStatement->fetchColumn();
+				return $nb_newers;
+			}
+		}
 	}

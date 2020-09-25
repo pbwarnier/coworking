@@ -33,7 +33,7 @@ body{ font-family: 'Open Sans', sans-serif !important; }
 .cover{
     position: relative;
     height: 150px !important;
-  	background-image: url('/coworking/assets/pictures/background-user.jpg');
+  	background-image: url('/../assets/pictures/background-user.jpg');
   	background-size: cover;
   	background-attachment: initial;
   	background-repeat: no-repeat;

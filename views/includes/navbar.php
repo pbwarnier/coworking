@@ -30,8 +30,8 @@
 				</li>
 			</ul>
 			<a href="my-account" class="ml-2 my-2 p-1 nav-link btn-customized rounded-pill d-flex" title="Mon profil">
-				<div class="my-auto mx-2 large-text">Pierre-Baptiste Warnier</div>
-				<img class="rounded-circle" src="assets/pictures/user.png" alt="userpic">
+				<div class="my-auto mx-2 large-text"><?= $userInfo->firstname; ?> <?= $userInfo->lastname; ?></div>
+				<img class="rounded-circle" src="<?= $userInfo->img; ?>" alt="<?= $userInfo->firstname; ?> <?= $userInfo->lastname; ?>">
 			</a>
 		</div>
 		<!-- Notifications window -->
@@ -76,7 +76,7 @@
 <div id="slideNav" class="pt-4 slideNav bg-light">
 	<button type="button" class="mt-2 btn-light text-secondary rounded close_nav">&times;</button>
 	<div class="p-3">
-		<a href="my-account" class="nav-link d-flex"><img class="rounded-circle mr-3 border" src="assets/pictures/user.png" alt="userpic"><span class="my-auto text-dark">Mon profil</span></a>
+		<a href="my-account" class="nav-link d-flex"><img class="rounded-circle mr-3 border" src="<?= $userInfo->img; ?>" alt="userpic"><span class="my-auto text-dark">Mon profil</span></a>
 		<a href="news" class="nav-link d-flex"><i class="my-auto mr-3 text-danger far fa-newspaper"></i><span class="my-auto text-dark">Fil d'actualités</span></a>
 		<a href="#" class="nav-link d-flex"><i class="my-auto mr-3 text-secondary fas fa-puzzle-piece"></i><span class="my-auto text-dark">Ma section</span></a>
 		<a href="dashboard" class="nav-link d-flex"><i class="my-auto mr-3 text-primary fab fa-trello"></i><span class="my-auto text-dark">Tableau de bord</span></a>

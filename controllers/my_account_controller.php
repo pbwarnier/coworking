@@ -4,6 +4,10 @@
 	empty_session(); // check if session is empty
 
 	include dirname(__FILE__).'/../utils/get_scriptname.php';
+	require_once dirname(__FILE__).'/../utils/convert_date.php'; // insert function to convert date in french
+	require_once dirname(__FILE__).'/../models/User.php'; // insert class User
+
+	$user = new User(['id' => $_SESSION['user']['id']]);
 
 	if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['logout'])) {
 		// parcourt le tableaux des cookies
@@ -20,6 +24,8 @@
 		header('location: authentification');
 		exit();
 	}
+
+	$userInfo = $user->selectProfil();
 
 	$title = 'Mon profil Co\'working';
 	$description = 'Personnalisez votre profil et paramétrez votre compte Co\'working';

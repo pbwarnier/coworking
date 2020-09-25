@@ -159,7 +159,13 @@ textarea[name="edit-post"]:focus{
 #temporary-issue span{ white-space: nowrap; }
 #temporary-answer{ display: none; }
 
-#info-box{ display: flex; }
+.info-box{ display: flex; }
+
+.attachment{
+	width: auto;
+	height: 100%;
+	max-height: 400px;
+}
 
 @media screen and (max-width: 1100px){
 	.message-box{

@@ -4,7 +4,7 @@
 		$compt_copy = 1; // copy name extension
 		while (!$verification){
 			$path = pathinfo($folder.$file);
-			$file = $path['filename'].'_'.$compt_copy.'.'.$path['extension']; // composition of the filename
+			$file = $path['filename'].'_copy'.$compt_copy.'.'.$path['extension']; // composition of the filename
 			if (!file_exists($folder.$file)){ $verification = true; }
 			$compt_copy++;
 		}
@@ -15,7 +15,7 @@
         $imgsize = getimagesize($source_file); // get size of this picture
         $width = $imgsize[0]; // image width
         $height = $imgsize[1]; // height image
-        $mime = $imgsize['mime'];
+        $mime = $imgsize['mime']; // type file
 
         // switch is equivalent to a series of instructions if
         switch($mime) {

@@ -191,4 +191,42 @@
 
 			return $updateStatement->execute();
 		}
+
+		public function getNavInfo()
+		{
+			$select_SQL = 'SELECT `lastname`, `firstname`, `img` FROM `users` WHERE `users_id` = users_id';
+			$selectStatement = $this->database->prepare($select_SQL);
+
+			$selectStatement->bindValue(':users_id', $this->id, PDO::PARAM_INT);
+
+			if ($selectStatement->execute()) {
+				return $selectStatement->fetch(PDO::FETCH_OBJ);
+			}
+		}
+
+		public function countBirthday(){
+			$count_SQL = 'SELECT ((SELECT COUNT(`birthdate`) AS `birth1` FROM `users` WHERE DATE_FORMAT(`birthdate`, "%m-%d") = :birthdate AND `users`.`company_id` = :company_id) + (SELECT COUNT(`users`.`birthdate`) AS `birth2` FROM `users` INNER JOIN company ON `users`.`users_id` = `company`.`users_id_manager` WHERE DATE_FORMAT(`users`.`birthdate`, "%m-%d") = :birthdate AND `company`.`company_id` = :company_id)) AS total';
+
+			$countStatement = $this->database->prepare($count_SQL);
+
+			$countStatement->bindValue(':birthdate', $this->birthdate, PDO::PARAM_STR);
+			$countStatement->bindValue(':company_id', $this->company_id, PDO::PARAM_INT);
+
+			if ($countStatement->execute()) {
+				$nb_birthday = $countStatement->fetchColumn();
+				return $nb_birthday;
+			}
+		}
+
+		public function selectProfil()
+		{
+			$select_SQL = 'SELECT `users`.`lastname`, `users`.`firstname`, `users`.`email`, `users`.`img`, `users`.`birthdate`, `users`.`phone_number`, `users`.`biography`, `villes_france_free`.`ville_nom_reel`, `villes_france_free`.`ville_departement`, `section`.`name` AS `section_name` FROM `users` LEFT JOIN `villes_france_free` ON `users`.`city` = `villes_france_free`.`ville_id` LEFT JOIN `section` ON `section`.`section_id` = `users`.`section_id` WHERE `users`.`users_id` = :users_id';
+			$selectStatement = $this->database->prepare($select_SQL);
+
+			$selectStatement->bindValue(':users_id', $this->id, PDO::PARAM_INT);
+
+			if ($selectStatement->execute()) {
+				return $selectStatement->fetch(PDO::FETCH_OBJ);
+			}
+		}
 	}

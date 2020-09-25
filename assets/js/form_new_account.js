@@ -214,8 +214,7 @@ $("input[name='postal_code']").keyup(function(){
 	
 $("#subscribe").click(function(event){
 	event.preventDefault(); // prevents page reloading
-	var data = $("#subscribeForm").serialize();
-	// get the form type and add it to the serialized chain
+	var data = $("#subscribeForm").serialize(); // get the form type and add it to the serialized chain
 	data = data+encodeURI('&type='+$(this).data('target'));
 	$.post('controllers/form_new_account_controller.php', data, function(response){
 		// drop element which have text-danger class

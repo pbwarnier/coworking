@@ -1,6 +1,6 @@
 <div id="zoom" class="zoom">
 			<span class="close_zoom" onclick="closing_zoom()">&times;</span>
-			<img src="/coworking/assets/pictures/user.png" alt="name-user">
+			<img src="<?= $userInfo->img; ?>" alt="name-user">
 		</div>
 		<div class="container">
 			<div class="p-customized w-100">
@@ -8,7 +8,7 @@
 					<div class="w-100 cover rounded-top">
 						<div class="p-1 bg-white personnal-picture rounded-circle shadow-sm">
 							<figure class="m-0 w-100 rounded-circle">
-								<img class="w-100 rounded-circle" src="/coworking/assets/pictures/user.png" alt="name-user">
+								<img class="w-100 rounded-circle" src="<?= $userInfo->img ?>" alt="name-user">
 								<figcaption class="d-flex">
 									<div class="m-auto">
 										<div><button class="small">Changer ma photo</button></div>
@@ -20,7 +20,7 @@
 					</div>
 					<div class="mt-md-0 mt-5 p-3 w-100">
 						<div class="w-100 d-flex">
-							<div class="ml-personalized my-auto h4 text-dark">Pierre-Baptiste Warnier</div>
+							<div class="ml-personalized my-auto h4 text-dark"><?= $userInfo->firstname; ?> <?= $userInfo->lastname; ?></div>
 							<div class="ml-auto d-flex">
 								<div class="text-success d-flex">
 									<span class="my-auto d-xl-block d-none">Disponible</span>
@@ -39,13 +39,28 @@
 							</div>
 						</div>
 						<div class="mt-3 w-100 d-lg-flex">
-							<div class="mx-auto mt-lg-0 mt-3 px-3 py-1 text-dark rounded-pill border border-secondary text-center"><i class="mr-3 far fa-envelope"></i>warnier.pb@gmail.com</div>
-							<div class="mx-auto mt-lg-0 mt-3 px-3 py-1 text-dark rounded-pill border border-secondary text-center"><i class="mr-3 fas fa-users"></i>Informatique et développement</div>
-							<div class="mx-auto mt-lg-0 mt-3 px-3 py-1 text-dark rounded-pill border border-secondary text-center"><i class="mr-3 far fa-birthday-cake"></i>22 Fev. 1998</div>
+							<div class="mx-auto mt-lg-0 mt-3 px-3 py-1 text-dark rounded-pill border border-secondary text-center">
+								<i class="mr-3 far fa-envelope"></i>
+								<?= $_SESSION['user']['login']; ?>
+							</div>
+							<?php if (isset($userInfo->section_name)) : ?>
+							<div class="mx-auto mt-lg-0 mt-3 px-3 py-1 text-dark rounded-pill border border-secondary text-center">
+								<i class="mr-3 fas fa-users"></i>
+								<?= $userInfo->section_name; ?>
+							</div>
+							<?php endif; ?>
+							<?php if (isset($userInfo->birthdate)) : ?>
+							<div class="mx-auto mt-lg-0 mt-3 px-3 py-1 text-dark rounded-pill border border-secondary text-center">
+								<i class="mr-3 far fa-birthday-cake"></i>
+								<?= dateFR($userInfo->birthdate); ?>
+							</div>
+						<?php endif; ?>
 						</div>
+						<?php if (isset($userInfo->biography)) : ?>
 						<div class="mt-3 w-100 text-dark text-justify">
-							Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+							<?= nl2br($userInfo->biography); ?>
 						</div>
+						<?php endif; ?>
 					</div>
 				</div>
 				<div class="my-3 w-100 d-lg-flex">

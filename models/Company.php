@@ -137,4 +137,16 @@
 				$this->company_id = $companyInfo->company_id;
 			}
 		}
+
+		public function readName(){
+			$select_SQL = 'SELECT `company_name` FROM `company` WHERE `company_id` = :company_id';
+			$selectStatement = $this->database->prepare($select_SQL);
+
+			$selectStatement->bindValue(':company_id', $this->id, PDO::PARAM_INT);
+			$selectStatement->setFetchMode(PDO::FETCH_INTO, $this);
+
+			if ($selectStatement->execute()) {
+				$selectStatement->fetch(PDO::FETCH_INTO);
+			}
+		}
 	}

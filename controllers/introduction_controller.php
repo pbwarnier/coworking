@@ -125,6 +125,7 @@
 			$path = pathinfo($target_file);
 			move_uploaded_file($_FILES["userPicture"]["tmp_name"], $target_file);
 			resize_crop_image(1000, 1000, $target_file, $target_dir.$path['filename'].'_resize.'.$path['extension']);
+			unlink($target_file); // delete file
 			if (file_exists($target_dir.$path['filename'].'_resize.'.$path['extension'])) {
 				$target_file = $target_dir.$path['filename'].'_resize.'.$path['extension'];
 			}

@@ -5,13 +5,13 @@ $(document).ready(function(){
 		if ($(this).width() > 767) {
 			if ($(this).scrollTop() > 50) {
 			    $("nav").css("background", "#ffffff").addClass("shadow-sm");
-			    	$(".navbar-brand, .nav-link").css("color", "#343a40").removeClass("text-shadow");
-			    }
-			    else{
-			    	$("nav").css("background", "transparent").removeClass("shadow-sm");
-			        $(".navbar-brand, .nav-link").css("color", "#ffffff").addClass("text-shadow");
-			    }
+			   	$(".navbar-brand, .nav-link").css("color", "#343a40").removeClass("text-shadow");
 			}
+			else{
+			    $("nav").css("background", "transparent").removeClass("shadow-sm");
+			    $(".navbar-brand, .nav-link").css("color", "#ffffff").addClass("text-shadow");
+			}
+		}
 	});
 
 	// remove text-shadow in mobile view

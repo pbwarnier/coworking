@@ -84,35 +84,26 @@ $(document).ready(function(){
 			$.ajax({
 				url: 'controllers/new_posting_controller.php',
 				type: 'POST',
-				data: { 'message': text }
+				data: { 'text': text }
 			})
 			.done(function(response){
-				var infoBox = $("#info-box").width();
+				response = JSON.parse(response);
+				var infoBox = $(".info-box").width();
 				if (infoBox > 0) {
-					$("#info-box").fadeOut();
-					$("temporary-content").after(response);
-					zoom = false;
-					$("textarea[name='edit-post']").val('');
-					$("textarea[name='edit-post']").removeAttr('style');
-					$("#post-contain").removeClass('post-focus').addClass('post-normal');
-					$("#form-contain").removeAttr('style').addClass('w-100');
-					$("#temporary-content").removeAttr('style').addClass('mt-3');
-					$("#attachment").removeClass('btn-customized-alternativ').addClass('label-disabled');
-					$("button[name='posting'], input[name='fileToUpload']").attr('disabled', 'disabled');
-					$(".close_zoom").addClass('d-none');
+					$(".info-box").fadeOut();
 				}
-				else{
-					$("temporary-content").after(response);
-					zoom = false;
-					$("textarea[name='edit-post']").val('');
-					$("textarea[name='edit-post']").removeAttr('style');
-					$("#post-contain").removeClass('post-focus').addClass('post-normal');
-					$("#form-contain").removeAttr('style').addClass('w-100');
-					$("#temporary-content").removeAttr('style').addClass('mt-3');
-					$("#attachment").removeClass('btn-customized-alternativ').addClass('label-disabled');
-					$("button[name='posting'], input[name='fileToUpload']").attr('disabled', 'disabled');
-					$(".close_zoom").addClass('d-none');
-				}
+
+				zoom = false;
+				$("#temporary-content").after(response.html);
+				$("textarea[name='edit-post']").val('');
+				$("textarea[name='edit-post']").removeAttr('style');
+				$("#post-contain").removeClass('post-focus').addClass('post-normal');
+				$("#form-contain").removeAttr('style').addClass('w-100');
+				$("#temporary-content").removeAttr('style').addClass('mt-3');
+				$("#attachment").removeClass('btn-customized-alternativ').addClass('label-disabled');
+				$("button[name='posting'], input[name='fileToUpload']").attr('disabled', 'disabled');
+				$(".close_zoom").addClass('d-none');
+				$("#post_"+response.id).fadeIn();
 			})
 		}
 	})
@@ -134,8 +125,56 @@ $(document).ready(function(){
 			$("#info-box").fadeOut();
 		})
 	})
-})
 
-function commenter(id){
-	$("#commentsBloc_"+id).slideToggle();
-}
+	$("body").on('click', '.delete-post', function(){
+		var div = $(this).closest('div.shadow-sm');
+		var id = div.attr('id');
+		id = id.split('_');
+		$.post('controllers/news_controller.php', { idPost: id[1], action: "delete" }, function(response){
+			if (response == 1) {
+				div.addClass('p-3').addClass('bg-info').addClass('text-light').removeClass('border');
+				div.html('Votre publication est supprimée');
+				setTimeout(function(){
+					div.fadeOut();
+				}, 4000);
+			}
+			else{
+				alert("une erreur est survenue, contactez l'administrateur");
+			}
+		})
+	})
+
+	$("body").on('click', '.btn-interaction', function(){
+		var id = $(this).attr("data-id");
+		var action = $(this).attr("data-action");
+
+		if (action == "comment") {
+			$("#commentsBloc_"+id).slideToggle();
+		}
+
+		if(action == "like"){
+			$.post('controllers/news_controller.php', { idPost: id, action: "like" }, function(response){
+				response = JSON.parse(response);
+				if (response.success == 1) {
+					$("#btn-like-"+id).addClass('text-info').html('J\'aime<i class="ml-2 far fa-thumbs-up"></i>');
+					if (response.count == 1) {
+						$("#post_"+id+" p").after('<div id="reactions_'+id+'" class="text-secondary small text-right">1<i class="ml-2 mr-3 far fa-thumbs-up"></i>0<i class="mx-2 far fa-comment"></i></div>');
+					}
+					else {
+						var nb_likes = $("#likes_"+id).text();
+						nb_likes = parseInt(nb_likes);
+						nb_likes = nb_likes + 1;
+						$("#likes_"+id).text(nb_likes);
+					}
+
+					// dislike	
+				}
+				else {
+					var post = $(this).closest('div.shadow-sm');
+					var postId = post.attr('id');
+					$("#"+postId+" p").after('<div class="alert alert-danger" role="alert">Une erreur est survenue lors de l\'enregistrement de votre réaction, contactez l\'administrateur.</div>');
+				}	
+			})
+		}
+	})
+})
