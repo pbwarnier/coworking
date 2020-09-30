@@ -11,6 +11,7 @@
 		private $date;
 		private $users_id;
 		private $posts_id;
+		private $database;
 
 		function __construct($likeArray = [])
 		{

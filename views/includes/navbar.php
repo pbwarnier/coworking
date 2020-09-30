@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-sm fixed-top px-3 py-sm-0 py-2 w-100">
 	<a class="mr-3 my-2 navbar-brand my-auto mr-auto font-weight-bold text-white" href="news">Co'working</a>
-	<button id="open_slideNav" class="px-3 py-2 navbar-toggler text-light" type="button" title="Barre de navigation">
+	<button id="btn_slideNav" class="px-3 py-2 navbar-toggler text-light" type="button" title="Barre de navigation">
     	<i class="far fa-bars"></i>
   	</button>
 	<div class="collapse navbar-collapse">
@@ -73,8 +73,7 @@
 	</div>
 </nav>
 <!-- navbar mobile -->
-<div id="slideNav" class="pt-4 slideNav bg-light">
-	<button type="button" class="mt-2 btn-light text-secondary rounded close_nav">&times;</button>
+<div id="slideNav" class="slideNav bg-light">
 	<div class="p-3">
 		<a href="my-account" class="nav-link d-flex"><img class="rounded-circle mr-3 border" src="<?= $userInfo->img; ?>" alt="userpic"><span class="my-auto text-dark">Mon profil</span></a>
 		<a href="news" class="nav-link d-flex"><i class="my-auto mr-3 text-danger far fa-newspaper"></i><span class="my-auto text-dark">Fil d'actualités</span></a>

@@ -202,7 +202,7 @@ $(document).ready(function(){
 				type: 'POST',
 				data: {
 					'localisation': chain,
-					'form' : 'introduction'
+					'form' : 'update'
 				} // name and value for the $_POST
 			})
 			.done(function(list_city){

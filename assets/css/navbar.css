@@ -85,8 +85,11 @@ nav{ background-color: #2a9d8f; }
 
 .small-link{ display: none; }
 
+#btn_slideNav:focus{ outline: none; }
+
 .slideNav{
-	height: 100%;
+	margin-top: 56px;
+	height: -webkit-calc(100% - 56px);
 	width: 0;
 	position: fixed;
 	z-index: 1110;

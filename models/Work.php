@@ -62,4 +62,20 @@
 
 			return $insertStatement->execute();
 		}
+
+		public function selectAll()
+		{
+			$select_SQL = 'SELECT `works`.`occupation`, `works`.`start`, `works`.`end`, `works`.`description`, `works`.`company_id`, `works`.`company_name` AS `company_name_edit`, `company`.`company_name`, `company`.`img` FROM `works` LEFT JOIN `company` ON `works`.`company_id` = `company`.`company_id` WHERE `works`.`users_id` = :users_id ORDER BY `works`.`start` DESC';
+			$selectStatement = $this->database->prepare($select_SQL);
+
+			$selectStatement->bindValue(':users_id', $this->users_id, PDO::PARAM_INT);
+
+			$list_experience = [];
+
+			if ($selectStatement->execute()) {
+				$list_experience = $selectStatement->fetchAll(PDO::FETCH_OBJ);
+			}
+
+			return $list_experience;
+		}
 	}

@@ -1,12 +1,16 @@
 $(document).ready(function() {
 	var open_notifications = false;
+	var openNav = false;
 	
-	$("#open_slideNav").click(function(){
-		$("#slideNav").css('width', '100%');
-	})
-
-	$(".close_nav").click(function(){
-		$("#slideNav").css('width', '0');
+	$("#btn_slideNav").click(function(){
+		if (openNav == false) {
+			$("#slideNav").css('width', '100%');
+			openNav = true;
+		}
+		else {
+			$("#slideNav").css('width', '0');
+			openNav = false;
+		}
 	})
 
 	$("#notifications").click(function(){

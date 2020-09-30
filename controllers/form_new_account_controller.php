@@ -160,7 +160,7 @@
 	    	if (empty($city)) {
 	    		$errors['city'] = 'Veuillez choisir une ville';
 	    	}
-	    	elseif (ctype_digit($city) === false) {
+	    	elseif (!ctype_digit($city)) {
 	    		$errors['city'] = 'La donnée saisie n\'est pas reconnue';
 	    	}
 

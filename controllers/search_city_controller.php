@@ -14,7 +14,7 @@
 			echo json_encode(0);
 		}
 	}
-	elseif (isset($_POST['form']) && $_POST['form'] == 'introduction') {
+	elseif (isset($_POST['form']) && $_POST['form'] == 'update') {
 		$localisation = trim(filter_var($_POST['localisation'], FILTER_SANITIZE_STRING));
 
 		if (strtolower(substr($localisation, 0, 2)) == 'st') {

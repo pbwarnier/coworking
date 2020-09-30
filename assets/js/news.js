@@ -139,7 +139,7 @@ $(document).ready(function(){
 				}, 4000);
 			}
 			else{
-				alert("une erreur est survenue, contactez l'administrateur");
+				alert("Une erreur est survenue, contactez l'administrateur");
 			}
 		})
 	})
@@ -165,9 +165,7 @@ $(document).ready(function(){
 						nb_likes = parseInt(nb_likes);
 						nb_likes = nb_likes + 1;
 						$("#likes_"+id).text(nb_likes);
-					}
-
-					// dislike	
+					}	
 				}
 				else {
 					var post = $(this).closest('div.shadow-sm');

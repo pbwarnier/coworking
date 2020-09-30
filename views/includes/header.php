@@ -13,7 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="/assets/css/<?= $filename ?>.css">
 	<link rel="stylesheet" type="text/css" href="/assets/libraries/bootstrap-4.3.1-dist/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/assets/libraries/font-awesome-pro-5.13.0/css/all.css">
-	<?php if ($filename == 'introduction' || $filename == 'dashboard') : // insert datepicker css ?>
+	<?php if ($filename == 'introduction' || $filename == 'dashboard' || $filename == 'my_account') : // insert datepicker css ?>
 		<link rel="stylesheet" type="text/css" href="/assets/libraries/calendar/css/bootstrap-datepicker.min.css">
 	<?php endif; ?>
 	<?php if ($filename == 'dashboard') : // insert timepicker css ?>
@@ -24,7 +24,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<?php endif; ?>
 	<script type="text/javascript" src="/assets/libraries/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
-	<?php if ($filename == 'introduction' || $filename == 'dashboard') : // insert datepicker js and langage ?>
+	<?php if ($filename == 'introduction' || $filename == 'dashboard' || $filename == 'my_account') : // insert datepicker js and langage ?>
 		<script type="text/javascript" src="/assets/libraries/calendar/js/bootstrap-datepicker.min.js"></script>
 		<script type="text/javascript" src="/assets/libraries/calendar/locales/bootstrap-datepicker.fr.min.js"></script>
 	<?php endif; ?>

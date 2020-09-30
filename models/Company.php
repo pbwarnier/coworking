@@ -9,6 +9,7 @@
 		private $id;
 		private $company_code;
 		private $company_name;
+		private $img;
 		private $siret;
 		private $address_number;
 		private $number_complement;
@@ -72,20 +73,61 @@
      	 */
 		public function create()
 		{
-			$insert_SQL = 'INSERT INTO `company` (`company_code`, `company_name`, `siret`, `address_number`, `number_complement`, `address`, `address_complement`, `city`, `phone_number`, `mobile_phone`, `users_id_manager`) VALUES (:company_code, :company_name, :siret, :address_number, :number_complement, :address, :address_complement, :city, :phone_number, :mobile_phone, :users_id_manager)';
+			$insert_SQL = 'INSERT INTO `company` (`company_code`, `company_name`, `img`, `siret`, `address_number`, `number_complement`, `address`, `address_complement`, `city`, `phone_number`, `mobile_phone`, `users_id_manager`) VALUES (:company_code, :company_name, :img, :siret, :address_number, :number_complement, :address, :address_complement, :city, :phone_number, :mobile_phone, :users_id_manager)';
 			$insertStatement = $this->database->prepare($insert_SQL);
 
 			// binding values in request sql
 			$insertStatement->bindValue(':company_code', $this->company_code, PDO::PARAM_INT);
 			$insertStatement->bindValue(':company_name', $this->company_name, PDO::PARAM_STR);
+
+			if (empty($this->img)) {
+				$insertStatement->bindValue(':img', $this->img, PDO::PARAM_NULL);
+			}
+			else {
+				$insertStatement->bindValue(':img', $this->img, PDO::PARAM_STR);
+			}
+
 			$insertStatement->bindValue(':siret', $this->siret, PDO::PARAM_STR);
-			$insertStatement->bindValue(':address_number', $this->address_number, PDO::PARAM_INT);
-			$insertStatement->bindValue(':number_complement', $this->number_complement, PDO::PARAM_STR);
+
+			if (empty($this->address_number)) {
+				$insertStatement->bindValue(':address_number', $this->address_number, PDO::PARAM_NULL);
+			}
+			else {
+				$insertStatement->bindValue(':address_number', $this->address_number, PDO::PARAM_INT);
+			}
+			
+			if (empty($this->number_complement)) {
+				$insertStatement->bindValue(':number_complement', $this->number_complement, PDO::PARAM_NULL);
+			}
+			else {
+				$insertStatement->bindValue(':number_complement', $this->number_complement, PDO::PARAM_STR);
+			}
+			
 			$insertStatement->bindValue(':address', $this->address, PDO::PARAM_STR);
-			$insertStatement->bindValue(':address_complement', $this->address_complement, PDO::PARAM_STR);
+
+			if (empty($this->address_complement)) {
+				$insertStatement->bindValue(':address_complement', $this->address_complement, PDO::PARAM_NULL);
+			}
+			else {
+				$insertStatement->bindValue(':address_complement', $this->address_complement, PDO::PARAM_STR);
+			}
+			
 			$insertStatement->bindValue(':city', $this->city, PDO::PARAM_INT);
-			$insertStatement->bindValue(':phone_number', $this->phone_number, PDO::PARAM_STR);
-			$insertStatement->bindValue(':mobile_phone', $this->mobile_number, PDO::PARAM_STR);
+
+			if (empty($this->phone_number)) {
+				$insertStatement->bindValue(':phone_number', $this->phone_number, PDO::PARAM_NULL);
+			}
+			else {
+				$insertStatement->bindValue(':phone_number', $this->phone_number, PDO::PARAM_STR);
+			}
+
+			if (empty($this->mobile_number)) {
+				$insertStatement->bindValue(':mobile_phone', $this->mobile_number, PDO::PARAM_NULL);
+			}
+			else {
+				$insertStatement->bindValue(':mobile_phone', $this->mobile_number, PDO::PARAM_STR);
+			}
+			
 			$insertStatement->bindValue(':users_id_manager', $this->users_id_manager, PDO::PARAM_STR);
 
 			if ($insertStatement->execute()) {

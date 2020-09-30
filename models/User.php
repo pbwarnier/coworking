@@ -109,11 +109,11 @@
      	 */
 		public function permission()
 		{
-			$select_SQL = 'SELECT `permission` FROM `users` WHERE `users_id` = :id';
+			$select_SQL = 'SELECT `permission` FROM `users` WHERE `users_id` = :users_id';
 			$selectStatement = $this->database->prepare($select_SQL);
 
 			// binding values in request sql
-			$selectStatement->bindValue(':id', $this->id, PDO::PARAM_INT);
+			$selectStatement->bindValue(':users_id', $this->id, PDO::PARAM_INT);
 			$selectStatement->setFetchMode(PDO::FETCH_INTO, $this); // fetch parametter
 
 			if ($selectStatement->execute()) {
@@ -127,11 +127,11 @@
      	 */
 		public function checkToken()
 		{
-			$count_SQL = 'SELECT COUNT(`users_id`) FROM `users` WHERE `users_id` = :id AND `temporary_code` = :temporary_code';
+			$count_SQL = 'SELECT COUNT(`users_id`) FROM `users` WHERE `users_id` = :users_id AND `temporary_code` = :temporary_code';
 			$countStatement = $this->database->prepare($count_SQL);
 
 			// binding values in request sql
-			$countStatement->bindValue(':id', $this->id, PDO::PARAM_INT);
+			$countStatement->bindValue(':users_id', $this->id, PDO::PARAM_INT);
 			$countStatement->bindValue(':temporary_code', $this->temporary_code, PDO::PARAM_STR);
 
 			if ($countStatement->execute()) {
@@ -142,10 +142,10 @@
 
 		public function updateToken()
 		{
-			$update_SQL = 'UPDATE `users` SET `temporary_code` = :temporary_code WHERE `users_id` = :user_id';
+			$update_SQL = 'UPDATE `users` SET `temporary_code` = :temporary_code WHERE `users_id` = :users_id';
 			$updateStatement = $this->database->prepare($update_SQL);
 
-			$updateStatement->bindValue(':id', $this->id, PDO::PARAM_INT);
+			$updateStatement->bindValue(':users_id', $this->id, PDO::PARAM_INT);
 			$updateStatement->bindValue(':temporary_code', $this->temporary_code, PDO::PARAM_STR);
 
 			return $updateStatement->execute();
@@ -153,10 +153,10 @@
 
 		public function resetToken()
 		{
-			$update_SQL = 'UPDATE `users` SET `temporary_code` = null WHERE `users_id` = :user_id';
+			$update_SQL = 'UPDATE `users` SET `temporary_code` = null WHERE `users_id` = :users_id';
 			$updateStatement = $this->database->prepare($update_SQL);
 
-			$updateStatement->bindValue(':user_id', $this->id, PDO::PARAM_INT);
+			$updateStatement->bindValue(':users_id', $this->id, PDO::PARAM_INT);
 
 			return $updateStatement->execute();
 		}
@@ -174,22 +174,38 @@
 		}
 
 		/**
-    	 * update user's informations in introduction
+    	 * update user's informations
      	 * @return boolean
      	 */
-		public function update()
+		public function update($arrayColumns = [], $arrayUpdates = [])
 		{
-			$update_SQL = 'UPDATE `users` SET `img` = :img, `birthdate` = :birthdate, `phone_number` = :phone_number, `city` = :city, `biography` = :biography WHERE `users_id` = :users_id';
-			$updateStatement = $this->database->prepare($update_SQL);
+			if (!empty($arrayColumns)) {
+				$query = implode(', ', $arrayColumns); // transform array in chain
+				$update_SQL = 'UPDATE `users` SET '.$query.' WHERE `users_id` = :users_id'; // create request
+				$updateStatement = $this->database->prepare($update_SQL);
 
-			$updateStatement->bindValue(':img', $this->img, PDO::PARAM_STR);
-			$updateStatement->bindValue(':birthdate', $this->birthdate, PDO::PARAM_STR);
-			$updateStatement->bindValue(':city', $this->city, PDO::PARAM_INT);
-			$updateStatement->bindValue(':phone_number', $this->phone_number, PDO::PARAM_STR);
-			$updateStatement->bindValue(':biography', $this->biography, PDO::PARAM_STR);
-			$updateStatement->bindValue(':users_id', $this->id, PDO::PARAM_INT);
+				foreach ($arrayUpdates as $key => $value) {
+					if (is_int($this->$key)) {
+						$updateStatement->bindValue(':'.$key, $this->$key, PDO::PARAM_INT);
+					}
+					elseif (is_string($this->$key)) {
+						$updateStatement->bindValue(':'.$key, $this->$key, PDO::PARAM_STR);
+					}
+					elseif (is_bool($this->$key)) {
+						$updateStatement->bindValue(':'.$key, $this->$key, PDO::PARAM_BOOL);
+					}
+					elseif (is_null($this->$key)) {
+						$updateStatement->bindValue(':'.$key, $this->$key, PDO::PARAM_NULL);
+					}
+				}
 
-			return $updateStatement->execute();
+				$updateStatement->bindValue(':users_id', $this->id, PDO::PARAM_INT);
+
+				return $updateStatement->execute();
+			}
+			else {
+				return false;
+			}
 		}
 
 		public function getNavInfo()
@@ -220,7 +236,7 @@
 
 		public function selectProfil()
 		{
-			$select_SQL = 'SELECT `users`.`lastname`, `users`.`firstname`, `users`.`email`, `users`.`img`, `users`.`birthdate`, `users`.`phone_number`, `users`.`biography`, `villes_france_free`.`ville_nom_reel`, `villes_france_free`.`ville_departement`, `section`.`name` AS `section_name` FROM `users` LEFT JOIN `villes_france_free` ON `users`.`city` = `villes_france_free`.`ville_id` LEFT JOIN `section` ON `section`.`section_id` = `users`.`section_id` WHERE `users`.`users_id` = :users_id';
+			$select_SQL = 'SELECT `users`.`lastname`, `users`.`firstname`, `users`.`email`, `users`.`img`, `users`.`birthdate`, DATE_FORMAT(`users`.`birthdate`, "%d/%m/%Y") AS `birthSlash`, `users`.`city`, `users`.`phone_number`, `users`.`biography`, `villes_france_free`.`ville_nom_reel`, `villes_france_free`.`ville_departement`, `section`.`name` AS `section_name` FROM `users` LEFT JOIN `villes_france_free` ON `users`.`city` = `villes_france_free`.`ville_id` LEFT JOIN `section` ON `section`.`section_id` = `users`.`section_id` WHERE `users`.`users_id` = :users_id';
 			$selectStatement = $this->database->prepare($select_SQL);
 
 			$selectStatement->bindValue(':users_id', $this->id, PDO::PARAM_INT);

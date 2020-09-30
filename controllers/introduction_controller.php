@@ -67,6 +67,9 @@
     	}
 
     	$city = trim(filter_input(INPUT_POST, 'city', FILTER_SANITIZE_NUMBER_INT));
+    	if (isset($city) && !ctype_digit($city)) {
+    		$errors['city'] = 'Choisir une ville parmi la liste';
+    	}
 
     	$phone = trim(strip_tags($_POST['phone']));
     	if (!empty($phone)) {

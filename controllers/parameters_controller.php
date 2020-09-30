@@ -4,6 +4,9 @@
 	empty_session(); // check if session is empty
 
 	include dirname(__FILE__).'/../utils/get_scriptname.php';
+	require_once dirname(__FILE__).'/../models/User.php'; // insert class User
+
+	$user = new User(['id' => $_SESSION['user']['id']]);
 
 	$isSubmitted = false;
 	$errors = [];
@@ -69,6 +72,8 @@
 			}
 		}
 	}
+
+	$userInfo = $user->getNavInfo();
 
 	$title = 'Paramètres de mon compte Co\'working';
 	$description = 'Modifiez les informations de votre compte, renforcez votre sécurité et gérez vos notifications.';
