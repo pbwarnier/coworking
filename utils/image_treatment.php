@@ -61,7 +61,4 @@
         }
 
         $image($dst_img, $dst_dir, $quality);
-
-        if ($dst_img)imagedestroy($dst_img);
-        if ($src_img)imagedestroy($src_img);
     }

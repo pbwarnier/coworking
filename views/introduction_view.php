@@ -44,7 +44,7 @@
 						<div class="alert alert-danger" role="alert">
 							<?= $errors['userPicture']; ?>
 						</div>
-					<?php elseif (isset($erros['save'])) : ?>
+					<?php elseif (isset($errors['save'])) : ?>
 						<div class="alert alert-danger" role="alert">
 							<?= $errors['save']; ?>
 							<br>

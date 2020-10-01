@@ -4,6 +4,7 @@
 	empty_session(); // check if session is empty
 
 	include dirname(__FILE__).'/../utils/get_scriptname.php';
+	include dirname(__FILE__).'/../utils/image_treatment.php';
 	require_once dirname(__FILE__).'/../utils/convert_date.php'; // insert function to convert date in french
 	require_once dirname(__FILE__).'/../models/User.php'; // insert class User
 	require_once dirname(__FILE__).'/../models/Skill.php'; // insert class Skill
@@ -37,6 +38,53 @@
 		session_destroy();
 		header('location: authentification');
 		exit();
+	}
+	elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['change-picture'])) {
+		$isSubmitted = true;
+		if (!empty($_FILES["userPicture"]['name']) && !empty($_FILES['userPicture']['tmp_name']) && $_FILES['userPicture']['size'] > 0) {
+			$target_dir = '../users/'.$_SESSION['user']['id'].'/img/';
+			$target_file = $target_dir.basename($_FILES["userPicture"]["name"]);
+			$imgFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+			// check if $_FILES is a picture
+			$check = getimagesize($_FILES["userPicture"]["tmp_name"]);
+			if ($check === false){
+				$errors['userPicture'] = 'Votre fichier n\'est pas une image';	
+			}
+
+			// check image size
+			if ($_FILES["userPicture"]["size"] > 10000000){
+				$errors['userPicture'] = 'Pour être prise en charge, votre image ne dois pas dépasser 10 Mo';
+			}
+
+			// check image extension
+			if ($imgFileType != "jpg" && $imgFileType != "png" && $imgFileType != "jpeg" && $imgFileType != "gif"){
+				$errors['userPicture'] = 'Seuls les formats JPG, JPEG, PNG et GIF sont accéptés';
+			}
+
+			// checks if the file already exists
+			if (file_exists($target_file)){
+				// function to create copy
+				$target_file = copyFile($target_dir, $_FILES["userPicture"]["name"]);
+			}
+		}
+		else{
+			$errors['file'] = 'Aucune image n\'est sélectionnée';
+		}
+
+		if (count($errors) == 0) {
+			$path = pathinfo($target_file);
+			if (move_uploaded_file($_FILES["userPicture"]["tmp_name"], $target_file)) {
+				resize_crop_image(1000, 1000, $target_file, $target_dir.$path['filename'].'_resize.'.$path['extension']);
+				$img = $target_dir.$path['filename'].'_resize.'.$path['extension'];
+			}
+			else {
+				$errors['file'] = 'Erreur upload';
+			}
+		}
+
+		// create array with columns which can be modified
+		$arrayUpdates = array('img' => $img);
 	}
 	elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update'])) {
 		$isSubmitted = true;
@@ -83,6 +131,15 @@
     	}
 
     	$biography = trim(filter_input(INPUT_POST, 'biography', FILTER_SANITIZE_STRING));
+
+    	// create array with columns which can be modified
+		$arrayUpdates = array(
+			'lastname' => $lastname,
+			'firstname' => $firstname,
+			'birthdate' => $birthdate,
+			'city' => intval($city),
+			'biography' => $biography
+		);
 	}
 	elseif ($_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['skillName'])) {
 		$skillName = trim(filter_var($_POST['skillName'], FILTER_SANITIZE_STRING));
@@ -107,15 +164,6 @@
 	}
 
 	if ($isSubmitted && count($errors) == 0) {
-		// create array with columns which can be modified
-		$arrayUpdates = array(
-			'lastname' => $lastname,
-			'firstname' => $firstname,
-			'birthdate' => $birthdate,
-			'city' => intval($city),
-			'biography' => $biography
-		);
-
 		foreach ($arrayUpdates as $key => $value) {
 			$arrayColumns[] = '`'.$key.'` = :'.$key; // insert columns and params in array
 

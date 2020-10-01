@@ -1,4 +1,26 @@
 $(document).ready(function(){
+	// if user choose a personal image, checking file extension
+	$("input[data-preview]").change(function() {
+		var file = $("#data-preview").val();
+        var ext = file.split(".");
+    	ext = ext[ext.length - 1].toLowerCase();      
+    	var arrayExtensions = ["jpg" , "jpeg", "png", "gif"];
+
+    	// lastIndexOf -1 return error
+	    if (arrayExtensions.lastIndexOf(ext) == -1) {
+	        alert("Seuls les fichiers au format jpg, jpeg, png et gif sont acceptés.");
+	    }
+        else{
+        	$("#divSaving").slideDown('d-none').addClass('d-flex');
+        	var input = $(this);
+			var oFReader = new FileReader();
+			oFReader.readAsDataURL(this.files[0]);
+			oFReader.onload	= function(oFREvent) {
+				$(input.data('preview')).css('background-image', 'url("'+oFREvent.target.result+'")');
+			};
+        }
+	});
+
 	$("input[name='firstname'], input[name='lastname']").keyup(function(){
 		var string = $(this).val();
 		string = string.substr(0, 1).toUpperCase() + string.substr(1, string.length).toLowerCase();
@@ -28,7 +50,7 @@ $(document).ready(function(){
 	increment(nb, compteur, time);
 
 	$("button[name='add_skill']").click(function(){
-		$(this).before('<div id="newSkill" class="my-1 d-inline-block"><input id="skill_name" class="my-md-0 my-2 mr-2 px-3 py-2 d-inline-block rounded-pill form-control" name="skill_name" maxlenght="50" style="max-width: 200px;"></div>')
+		$(this).before('<div id="newSkill" class="my-1 d-inline-block"><input id="skill_name" class="my-md-0 my-2 mr-2 px-3 py-2 d-inline-block rounded-pill form-control" name="skill_name" maxlenght="50" style="max-width: 200px;" autocomplete="off"></div>')
 		$(this).removeClass('d-inline-block').addClass('d-none');
 		$("input[name='skill_name']").focus();
 	})
@@ -41,6 +63,9 @@ $(document).ready(function(){
 				if (response.insertSuccess == 1) {
 					$("#newSkill").replaceWith('<div id="skill_'+response.lastId+'" class="my-1 mr-2 px-3 py-2 rounded bg-info d-inline-block text-light rounded-pill">'+response.skill_name+'<button class="ml-2 px-1 py-0 border-0 bg-info text-light rounded" name="removeSkill" data-skill="'+response.lastId+'">&times;</button></div>');
 					$("button[name='add_skill']").removeClass('d-none').addClass('d-inline-block');
+					if ($("#skill-none").width() != 0) {
+						$("#skill-none").remove();
+					}
 				}
 				else{
 					alert("Une erreur est survenue, contactez l'administrateur");
@@ -57,6 +82,10 @@ $(document).ready(function(){
 	    	event.preventDefault();
 	    	$(this).blur();
 	    }
+	}).on('keyup', 'input[name="skill_name"]', function(){
+		var string = $(this).val();
+		string = string.substr(0, 1).toUpperCase() + string.substr(1, string.length).toLowerCase();
+		$(this).val(string);
 	})
 
 	$("body").on('click', 'button[name="removeSkill"]', function(){
@@ -91,6 +120,10 @@ $(document).ready(function(){
 		$("#localisation").val(city_name);
 		$("input[name='city']").val(city_number);
 		$("#resultSearch").remove();
+	})
+
+	$("#change-picture").click(function(){
+		$('#profil-picture').modal('show');
 	})
 });
 

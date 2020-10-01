@@ -23,11 +23,11 @@ body{ font-family: 'Open Sans', sans-serif !important; }
 }
 
 .scroll{
-	 overflow-y: scroll;
+    overflow-y: scroll;
 }
 
 .scroll::-webkit-scrollbar {
-	 width: 0px;
+    width: 0px;
 }
 
 .cover{
@@ -39,22 +39,13 @@ body{ font-family: 'Open Sans', sans-serif !important; }
   	background-repeat: no-repeat;
 }
 
-.cover .profil-picture{
-  	position: absolute;
-  	max-width: 150px;
-  	min-width: 150px;
-  	width: 100%;
-  	margin-top: 50px;
-  	margin-left: 16px;
-}
-
 .cover .personnal-picture{
     position: absolute;
     max-width: 150px;
     min-width: 150px;
     width: 100%;
     margin-top: 50px;
-    margin-left: 16px;
+    margin-left: 20px;
 }
 
 .personnal-picture button{
@@ -65,6 +56,10 @@ body{ font-family: 'Open Sans', sans-serif !important; }
 
 .personnal-picture button:hover{
     text-decoration: underline;
+}
+
+.personnal-picture button:focus{
+    outline: none;
 }
 
 figure{
@@ -169,14 +164,14 @@ figure{
 .msg-zone{ height: calc(100% - 145px); }
 
 .profil-progress{
-  height: 10px;
-  background-color: #e9ecef;
-  overflow: hidden;
+    height: 10px;
+    background-color: #e9ecef;
+    overflow: hidden;
 }
 
 .profil-progress .bar{
-  height: 100%;
-  transition: width ease-in-out 2s;
+    height: 100%;
+    transition: width ease-in-out 2s;
 }
 
 .font-size{ font-size: 1.25rem; }
@@ -199,6 +194,13 @@ figure{
 
 .input-customized-sm{ max-width: 100px; width: 100%; }
 
+.preview{
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+
 @media screen and (max-width: 992px){
     .scroll{ overflow-y: visible; }
 }
@@ -206,21 +208,12 @@ figure{
 @media screen and (max-width: 767px) {
     .ml-personalized{ margin-left: 0; }
 
-    .cover .profil-picture{
-        position: absolute;
-        max-width: 150px;
-        min-width: 150px;
-        width: 100%;
-        margin-top: 50px;
-        margin-left: calc(50% - 75px);
-    }
-
     .cover .personnal-picture{
         position: absolute;
         max-width: 150px;
         min-width: 150px;
         width: 100%;
         margin-top: 50px;
-        margin-left: calc(50% - 75px);
+        margin-left: -webkit-calc(50% - 75px);
     }
 }

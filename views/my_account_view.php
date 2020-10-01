@@ -4,18 +4,31 @@
 	<img src="<?= $userInfo->img; ?>" alt="name-user">
 </div>
 <!-- Edit profil modal -->
-<div class="modal fade" id="editing-profile" tabindex="-1" aria-labelledby="editing-profile" aria-hidden="true">
+<div class="modal fade" id="profil-picture" tabindex="-1" aria-labelledby="profil-picture" aria-hidden="true">
  	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="editing-profile">Editer mon profil</h5>
+				<h5 class="modal-title" id="profil-picture">Changer ma photo de profil</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
 				<form action="my-account" method="POST" enctype="multipart/form-data">
-					
+					<div class="w-100 d-flex justify-content-center">
+						<div class="p-1 rounded-circle bg-white shadow-sm border" style="height: 200px; width: 200px;">
+							<div class="rounded-circle preview" style="background-image: url('<?= $userInfo->img; ?>');"></div>
+						</div>
+					</div>
+					<div class="mt-3 w-100 d-flex justify-content-center">
+						<label class="btn btn-sm btn-outline-secondary">
+							<input id="data-preview" class="d-none" data-preview=".preview" name="userPicture" type="file" accept="image/*">
+							Telecharger une image
+						</label>
+					</div>
+					<div id="divSaving" class="mt-2 w-100 d-none justify-content-center">
+						<button class="btn btn-sm btn-primary" type="submit" name="change-picture">Enregistrer mon image</button>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -103,19 +116,23 @@
 </div>
 <div class="container">
 	<div class="p-customized w-100">
-		<?php if ($updateSuccess) : ?>
+		<?php if ($isSubmitted && $updateSuccess) : ?>
 			<div class="mt-3 alert alert-success" role="alert">
 				<i class="mr-2 far fa-check"></i>Votre profil est mis à jour, visionnez votre profil en tant qu'invité <a class="alert-link" href="profil-<?= $_SESSION['user']['id']; ?>">ici</a>
+			</div>
+		<?php elseif ($isSubmitted && $updateSuccess == false) : ?>
+			<div class="mt-3 alert alert-danger" role="alert">
+				<i class="mr-2 fal fa-exclamation-circle"></i></i>Une erreur est survenue pendant la modification de votre profil
 			</div>
 		<?php endif; ?>
 		<div class="mt-3 w-100 shadow-sm border rounded">
 			<div class="w-100 cover rounded-top">
 				<div class="p-1 bg-white personnal-picture rounded-circle shadow-sm">
 					<figure class="m-0 w-100 rounded-circle">
-						<img class="w-100 rounded-circle" src="<?= $userInfo->img; ?>" alt="name-user">
+						<img class="w-100 rounded-circle" src="<?= $userInfo->img; ?>" alt="<?= htmlspecialchars($userInfo->firstname); ?> <?= htmlspecialchars($userInfo->lastname); ?>">
 						<figcaption class="d-flex">
 							<div class="m-auto">
-								<div><button class="small">Changer ma photo</button></div>
+								<div><button id="change-picture" class="small">Changer ma photo</button></div>
 								<div><button class="mt-2 small" onclick="zoom()">Voir ma photo</button></div>
 							</div>
 						</figcaption>
@@ -215,7 +232,7 @@
 			<div class="h4 mb-4 text-dark">Compétences</div>
 			<div class="w-100">
 				<?php if (count($list_skills) == 0) : ?>
-					<div class="my-1 mr-2 px-3 py-2 rounded bg-white d-inline-block rounded-pill text-secondary border border-secondary">Aucune compétence enregistrée</div>
+					<div id="skill-none" class="my-1 mr-2 px-3 py-2 rounded bg-white d-inline-block rounded-pill text-secondary border border-secondary">Aucune compétence enregistrée</div>
 				<?php else : ?>
 				<?php foreach ($list_skills as $skillInfo) : ?>
 					<div id="skill_<?= $skillInfo->skills_id; ?>" class="my-1 mr-2 px-3 py-2 rounded bg-info d-inline-block text-light rounded-pill">
