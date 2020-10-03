@@ -159,27 +159,32 @@
 						</div>
 					</div>
 				</div>
-				<div class="mt-3 w-100 d-lg-flex">
-					<div class="mx-auto mt-lg-0 mt-3 px-3 py-1 text-dark rounded-pill border border-secondary text-center">
-						<i class="mr-3 far fa-envelope"></i>
-						<?= $_SESSION['user']['login']; ?>
-					</div>
-					<?php if (isset($userInfo->section_name)) : ?>
-					<div class="mx-auto mt-lg-0 mt-3 px-3 py-1 text-dark rounded-pill border border-secondary text-center">
-						<i class="mr-3 fas fa-users"></i>
-						<?= htmlspecialchars($userInfo->section_name); ?>
-					</div>
-					<?php endif; ?>
+				<div class="mt-3 w-100 <?= ($nb_stickInfo == 1) ? 'd-flex' : ($nb_stickInfo == 2) ? 'd-md-flex' : ($nb_stickInfo == 3 || $nb_stickInfo == 4) ? 'd-xl-flex' : ''; ?>">
 					<?php if (isset($userInfo->birthdate)) : ?>
-					<div class="mx-auto mt-lg-0 mt-3 px-3 py-1 text-dark rounded-pill border border-secondary text-center">
+					<div class="<?= ($nb_stickInfo == 1) ? 'mx-auto' : ($nb_stickInfo == 2) ? 'mx-auto mt-md-0 mt-3' : ($nb_stickInfo == 3 || $nb_stickInfo == 4) ? 'mx-auto mt-xl-0 mt-3' : 'mx-3 my-2 d-md-inline-block'; ?> px-3 py-1 text-dark rounded-pill border border-secondary text-center">
 						<i class="mr-3 far fa-birthday-cake"></i>
 						<?= dateFR($userInfo->birthdate); ?>
 					</div>
 					<?php endif; ?>
+					<?php if (isset($userInfo->section_name)) : ?>
+					<div class="<?= ($nb_stickInfo == 1) ? 'mx-auto' : ($nb_stickInfo == 2) ? 'mx-auto mt-md-0 mt-3' : ($nb_stickInfo == 3 || $nb_stickInfo == 4) ? 'mx-auto mt-xl-0 mt-3' : 'mx-3 my-2 d-md-inline-block'; ?> px-3 py-1 text-dark rounded-pill border border-secondary text-center">
+						<i class="mr-3 fas fa-users"></i>
+						<?= htmlspecialchars($userInfo->section_name); ?>
+					</div>
+					<?php endif; ?>
+					<div class="<?= ($nb_stickInfo == 1) ? 'mx-auto' : ($nb_stickInfo == 2) ? 'mx-auto mt-md-0 mt-3' : ($nb_stickInfo == 3 || $nb_stickInfo == 4) ? 'mx-auto mt-xl-0 mt-3' : 'mx-3 my-2 d-md-inline-block'; ?> px-3 py-1 text-dark rounded-pill border border-secondary text-center">
+						<i class="mr-3 far fa-envelope"></i>
+						<?= htmlspecialchars($userInfo->email); ?></div>
+					<?php if (isset($userInfo->phone_number)) : ?>
+					<div class="<?= ($nb_stickInfo == 1) ? 'mx-auto' : ($nb_stickInfo == 2) ? 'mx-auto mt-md-0 mt-3' : ($nb_stickInfo == 3 || $nb_stickInfo == 4) ? 'mx-auto mt-xl-0 mt-3' : 'mx-3 my-2 d-md-inline-block'; ?> px-3 py-1 text-dark rounded-pill border border-secondary text-center">
+						<i class="mr-3 fas fa-phone"></i>
+						<?= htmlspecialchars($userInfo->phone_number); ?>
+					</div>
+					<?php endif; ?>
 					<?php if (isset($userInfo->ville_nom_reel)) : ?>
-					<div class="mx-auto mt-lg-0 mt-3 px-3 py-1 text-dark rounded-pill border border-secondary text-center">
+					<div class="<?= ($nb_stickInfo == 1) ? 'mx-auto' : ($nb_stickInfo == 2) ? 'mx-auto mt-md-0 mt-3' : ($nb_stickInfo == 3 || $nb_stickInfo == 4) ? 'mx-auto mt-xl-0 mt-3' : 'mx-3 my-2 d-md-inline-block'; ?> px-3 py-1 text-dark rounded-pill border border-secondary text-center">
 						<i class="mr-3 far fa-home-lg"></i>
-						De <?= $userInfo->ville_nom_reel; ?> (<?= $userInfo->ville_departement; ?>)
+						De <?= htmlspecialchars($userInfo->ville_nom_reel); ?> (<?= $userInfo->ville_departement; ?>)
 					</div>
 					<?php endif; ?>
 				</div>
@@ -250,13 +255,17 @@
 				<?php foreach ($list_experience as $expInfo) : ?>
 				<div class="<?= ($nbDiv == 1) ? 'mt-0' : ($nbDiv == 2) ? 'mt-md-0 mt-3' : 'mt-3'; ?> col-md-6">
 					<div class="w-100 shadow">
-						<div class="p-3 bg-customized text-light"><?= $expInfo->occupation; ?></div>
+						<div class="p-3 bg-customized text-light">
+							<?= htmlspecialchars($expInfo->occupation); ?>
+						</div>
 						<?php if (isset($expInfo->img)) : ?>
 						<div class="p-3 w-100 d-flex">
 							<img class="mx-auto company_logo" src="<?= $expInfo->img; ?>" alt="Logo <?= $expInfo->company_name; ?>">
 						</div>
 						<?php endif; ?>
-						<div class="p-3 bg-light text-dark">Chez <?= (isset($expInfo->company_id)) ? htmlspecialchars($expInfo->company_name) : htmlspecialchars($expInfo->company_name_edit); ?></div>
+						<div class="p-3 bg-light text-dark">
+							Chez <?= (isset($expInfo->company_id)) ? htmlspecialchars($expInfo->company_name) : htmlspecialchars($expInfo->company_name_edit); ?>	
+						</div>
 						<div class="p-3 text-secondary">
 							<?= (isset($expInfo->end)) ? 'Du '.dateFR($expInfo->start) : 'Depuis le '.dateFR($expInfo->start); ?>
 							<?= (isset($expInfo->end)) ? ' au '.dateFR($expInfo->end) : ''; ?>

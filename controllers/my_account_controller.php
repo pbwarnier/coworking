@@ -182,6 +182,9 @@
 	$list_skills = $skill->selectAll();
 	$list_experience = $work->selectAll();
 
+	$list_informations = array($userInfo->email, $userInfo->birthdate, $userInfo->section_name, $userInfo->phone_number, $userInfo->ville_nom_reel);
+	$nb_stickInfo = count(array_filter($list_informations));
+
 	$title = 'Mon profil Co\'working';
 	$description = 'Personnalisez votre profil et paramétrez votre compte Co\'working';
 	require_once dirname(__FILE__).'/../views/includes/header.php'; // include header

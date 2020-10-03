@@ -20,8 +20,11 @@
 		$list_skills = $skill->selectAll();
 		$list_experience = $work->selectAll();
 
-		$title = 'A déterminer';
-		$description = 'A déterminer';
+		$list_informations = array($userInfo->email, $userInfo->birthdate, $userInfo->section_name, $userInfo->phone_number, $userInfo->ville_nom_reel);
+		$nb_stickInfo = count(array_filter($list_informations));
+
+		$title = $userInfo->firstname.' '.$userInfo->lastname.' | Co\'working';
+		$description = 'Consultez le profil Co\'working de '.$userInfo->firstname.' '.$userInfo->lastname.' et echangez avec lui/elle';
 		require_once dirname(__FILE__).'/../views/includes/header.php'; // include header
 
 		require_once dirname(__FILE__).'/../views/includes/navbar.php'; // include navbar
