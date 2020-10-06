@@ -40,7 +40,7 @@
 		$user = new User(['email' => $email]);
 		$userInfo = $user->selectAuth(); // get informations for validate authentification
 
-		if (isset($userInfo->email)) {
+		if (!empty($userInfo->email)) {
 			if ($userInfo->email != $email) {
 				$errors['login'] = 'Identifiants incorrectes';
 				$errors['code'] = '';
@@ -60,8 +60,11 @@
 
 			$inscription = new Inscription(['user_id' => $userInfo->users_id]);
 			$inscription->checkAccess();
-			if ($inscription->access == 0) {
+			if ($inscription->verified == 0) {
 				$errors['access'] = 'Vous n\'avez pas activé votre compte';
+			}
+			elseif ($inscription->access == 0) {
+				$errors['access'] = 'Vous ne pouvez pas rejoindre ce réseau';
 			}
 
 			$permission = openssl_decrypt($userInfo->permission, 'AES-128-ECB', CRYPT_KEY);
@@ -81,6 +84,12 @@
 				$errors['email'] = '';
 				$errors['password'] = '';
 			}
+		}
+		else{
+			$errors['login'] = 'Identifiants incorrectes';
+			$errors['code'] = '';
+			$errors['email'] = '';
+			$errors['password'] = '';
 		}
 	}
 

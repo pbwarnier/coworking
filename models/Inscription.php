@@ -9,6 +9,7 @@
 		private $id;
 		private $date;
 		private $access;
+		private $verified;
 		private $standby;
 		private $user_id;
 		private $company_id;
@@ -44,10 +45,13 @@
      	 */
 		public function create()
 		{
-			$insert_SQL = 'INSERT INTO `inscription` (`DATE`, `access`, `standby`, `users_id`, `company_id`) VALUES (NOW(), 0, 0, :users_id, :company_id)';
+			$insert_SQL = 'INSERT INTO `inscription` (`DATE`, `access`, `verified`, `standby`, `users_id`, `company_id`) VALUES (NOW(), :access, :verified, :standby, :users_id, :company_id)';
 			$inscriptionStatement = $this->database->prepare($insert_SQL);
 
 			// binding values in request sql
+			$inscriptionStatement->bindValue(':access', $this->access, PDO::PARAM_BOOL);
+			$inscriptionStatement->bindValue(':verified', $this->verified, PDO::PARAM_BOOL);
+			$inscriptionStatement->bindValue(':standby', $this->standby, PDO::PARAM_BOOL);
 			$inscriptionStatement->bindValue(':users_id', $this->user_id, PDO::PARAM_INT);
 			$inscriptionStatement->bindValue(':company_id', $this->company_id, PDO::PARAM_INT);
 
@@ -76,7 +80,7 @@
 
 		public function checkAccess()
 		{
-			$select_SQL = 'SELECT `access` FROM `inscription` WHERE `users_id` = :user_id';
+			$select_SQL = 'SELECT `access`, `verified` FROM `inscription` WHERE `users_id` = :user_id';
 			$selectStatement = $this->database->prepare($select_SQL);
 
 			$selectStatement->bindValue(':user_id', $this->user_id, PDO::PARAM_INT);
@@ -90,6 +94,16 @@
 		public function activateAccount()
 		{
 			$update_SQL = 'UPDATE `inscription` SET `access` = 1 WHERE `users_id` = :user_id';
+			$updateStatement = $this->database->prepare($update_SQL);
+
+			$updateStatement->bindValue(':user_id', $this->user_id, PDO::PARAM_INT);
+
+			return $updateStatement->execute();
+		}
+
+		public function verifyAccount()
+		{
+			$update_SQL = 'UPDATE `inscription` SET `verified` = 1 WHERE `users_id` = :user_id';
 			$updateStatement = $this->database->prepare($update_SQL);
 
 			$updateStatement->bindValue(':user_id', $this->user_id, PDO::PARAM_INT);

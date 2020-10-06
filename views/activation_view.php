@@ -49,6 +49,7 @@
 			</ul>
 		</div>
 	<?php elseif ($permission == 1 && $activateSuccess == true) : ?>
+		
 	<?php elseif ($activateSuccess == false) : ?>
 		<div class="mb-3 w-100 text-center">
 			<i class="fal fa-exclamation-circle fa-3x"></i>

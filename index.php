@@ -43,7 +43,7 @@
 		</ul>
 	</div>
 </nav>
-<?php if (isset($userInfo) && $userInfo->ban == 1) : ?>
+<?php if (!empty($userInfo) && $userInfo->ban == 1) : ?>
 	<div class="modal fade" id="errorLogin" tabindex="-1" aria-labelledby="errorLogin" aria-hidden="true">
   		<div class="modal-dialog modal-dialog-centered">
     		<div class="modal-content border-0 rounded-lg">

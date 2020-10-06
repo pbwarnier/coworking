@@ -4,8 +4,8 @@
 	$city = new Ville; // instance of class
 
 	if (isset($_POST['form']) && $_POST['form'] == 'create') {
-		if (!empty($_POST['zipcode']) && preg_match('/^\d{5}$/i', $_POST['zipcode'])) {
-			$zipcode = trim(filter_var($_POST['zipcode'], FILTER_VALIDATE_INT)); // cleaning number
+		$zipcode = trim(filter_var($_POST['zipcode'], FILTER_VALIDATE_INT)); // cleaning number
+		if (!empty($zipcode) && preg_match('/^\d{5}$/i', $zipcode)) {
 			$city->ville_code = '%'.$zipcode.'%';
 			$city_list = $city->searchCity();
 			echo json_encode($city_list);

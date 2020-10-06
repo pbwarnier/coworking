@@ -159,7 +159,7 @@ function searchCity(zipcode){
 			} // name and value for the $_POST
 		})
 		.done(function(list_city){
-			list_city = $.parseJSON(list_city); // construct strings with the JSON response
+			list_city = JSON.parse(list_city); // construct strings with the JSON response
 			$("select[name='city'] option").remove(); // delete options for this select
 			if (list_city != 0) {
 				$("#error_search").remove(); // delete error text

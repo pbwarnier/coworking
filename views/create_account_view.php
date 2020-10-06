@@ -22,7 +22,7 @@
 		</ul>
 	</div>
 </nav>
-<?php if ($successCreate === true && isset($_GET['type']) && $_GET['type'] == 'factory') : ?>
+<?php if ($successCreate == true && isset($_GET['type']) && $_GET['type'] == 'factory') : ?>
 	<div class="modal fade" id="success" tabindex="-1" aria-labelledby="success" aria-hidden="true">
   		<div class="modal-dialog modal-dialog-centered">
     		<div class="modal-content border-0 rounded-lg">
@@ -42,18 +42,16 @@
     		</div>
     	</div>
 	</div>
-<?php elseif ($successCreate === true && isset($_GET['type']) && $_GET['type'] == 'employee') : ?>
+<?php elseif ($successCreate == true && isset($_GET['type']) && $_GET['type'] == 'employee') : ?>
 	<div class="modal fade" id="success" tabindex="-1" aria-labelledby="success" aria-hidden="true">
   		<div class="modal-dialog modal-dialog-centered">
     		<div class="modal-content border-0 rounded-lg">
     			<div class="modal-body">
        				<h3 class="mb-3 font-weight-bold" style="color: #2a9d8f;">Notification d'inscription</h3>
        				<p class="text-dark text-justify">
-       					Votre demande d'inscription a été envoyé au responsable l'entreprise X
+       					Félicitations pour ce premier pas vers Co'working !
        					<br>
-       					Vous receverez une notification par email au plus tard le <?= $date->format('d/m/Y'); ?> à <?= $date->format('H:i'); ?> afin d'indiquer si l'accès vous est autorisé.
-       					<br>
-       					Dans le cas d'une réponse défavorable, vos données seront automatiquement suprimées.
+       					Pour envoyer une demande d'adhésion à votre employeur, nous devons vérifier votre identité au préalable. Nous vous avons envoyé un lien de vérification par email qui est à valider au plus tard le <?= $date->format('d/m/Y'); ?> à <?= $date->format('H:i'); ?>.
        				</p>
        				<div class="w-100 d-flex justify-content-end">
        					<a href="authentification" class="btn btn-primary rounded-pill">Retour à l'écran d'accueil</a>

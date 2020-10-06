@@ -176,7 +176,7 @@
 
 			if ($selectStatement->execute()) {
 				$companyInfo = $selectStatement->fetch(PDO::FETCH_OBJ);
-				$this->company_id = $companyInfo->company_id;
+				$this->id = $companyInfo->company_id;
 			}
 		}
 

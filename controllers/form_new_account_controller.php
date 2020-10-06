@@ -29,7 +29,7 @@
 	$city = null;
 	$phone = null;
 	$mobile = null;
-	$owner = null;	
+	$owner = null;
 
 	// error table
 	$errors = [];

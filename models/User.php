@@ -65,17 +65,22 @@
 			$insertStatement->bindValue(':firstname', $this->firstname, PDO::PARAM_STR);
 			$insertStatement->bindValue(':email', $this->email, PDO::PARAM_STR);
 			$insertStatement->bindValue(':password', $this->password, PDO::PARAM_STR);
-			$insertStatement->bindValue(':img', $this->img, PDO::PARAM_STR);
+			$insertStatement->bindValue(':img', $this->img, PDO::PARAM_NULL);
 			$insertStatement->bindValue(':birthdate', $this->birthdate, PDO::PARAM_STR);
-			$insertStatement->bindValue(':city', $this->city, PDO::PARAM_INT);
-			$insertStatement->bindValue(':phone_number', $this->phone_number, PDO::PARAM_INT);
-			$insertStatement->bindValue(':biography', $this->biography, PDO::PARAM_STR);
+			$insertStatement->bindValue(':city', $this->city, PDO::PARAM_NULL);
+			$insertStatement->bindValue(':phone_number', $this->phone_number, PDO::PARAM_NULL);
+			$insertStatement->bindValue(':biography', $this->biography, PDO::PARAM_NULL);
 			$insertStatement->bindValue(':permission', $this->permission, PDO::PARAM_STR);
 			$insertStatement->bindValue(':ban', $this->ban, PDO::PARAM_BOOL);
 			$insertStatement->bindValue(':temporary_code', $this->temporary_code, PDO::PARAM_STR);
 			$insertStatement->bindValue(':multi_step', $this->multi_step, PDO::PARAM_BOOL);
 			$insertStatement->bindValue(':section_id', $this->section_id, PDO::PARAM_NULL);
-			$insertStatement->bindValue(':company_id', $this->company_id, PDO::PARAM_INT);
+			if (empty($this->company_id)) {
+				$insertStatement->bindValue(':company_id', $this->company_id, PDO::PARAM_BOOL);
+			}
+			else {
+				$insertStatement->bindValue(':company_id', $this->company_id, PDO::PARAM_INT);
+			}
 
 			if ($insertStatement->execute()) {
 				$this->id = $this->database->lastInsertId();

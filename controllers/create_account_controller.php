@@ -29,7 +29,63 @@
 		$password = password_hash($password, PASSWORD_BCRYPT); // crypt password
 
 		if (isset($_GET['type']) && $_GET['type'] == "employee") {
-				$code = trim(filter_input(INPUT_POST, 'code_company', FILTER_SANITIZE_NUMBER_INT));
+			$code = trim(filter_input(INPUT_POST, 'code_company', FILTER_SANITIZE_NUMBER_INT));
+			$token = bin2hex(random_bytes(30)); // create token for link validation in mail
+			$owner = openssl_encrypt(1, 'AES-128-ECB', CRYPT_KEY); // crypt permission
+
+			try{
+				$database = $company->database;
+				$database->beginTransaction(); // start transaction
+				
+				$inscriptionArray = array(
+    				'access' => false,
+    				'verified' => false,
+    				'standby' => false,
+    				'user_id' => $user->id,
+    				'company_id' => $company->id
+    			);
+
+				$userArray = array(
+					'gender' => $_POST['sexe'],
+					'lastname' => $lastname,
+					'firstname' => $firstname,
+					'email' => $email,
+					'password' => $password,
+					'permission' => $owner,
+					'ban' => 0,
+					'temporary_code' => $token,
+					'multi_step' => 0,
+					'company_id' => $company->id
+				);
+
+				$user->create(); // method for insert new user
+    			$inscription = new Inscription($inscriptionArray);
+    			$inscription->create(); // insert new inscription
+    			$successCreate = $database->commit(); // send all queries
+
+    			$to = $user->email; // affect receiver mail
+	      		$subject = 'Bienvenue sur Co\'working'; // subject of the mail
+	      		// text of the welcoming mail
+	      		$bodyMail = '
+	      		<p>
+	      			Bienvenue '.$user->firstname.' !
+	      		</p>
+	      		<p>
+	      			Vous venez de créer le réseau Co\'working pour l\'entreprise <strong>'.$company->company_name.'</strong>.
+	      			<br>
+	      			Pour activer votre compte et obtenir le code d\'identification de votre entreprise, cliquez sur le lien suivant : <a href="coworking.fr/activation-'.$user->id.'-'.$token.'">Activer mon compte</a>
+	      		</p>
+	      		<p>
+	      			L\'équipe Co\'working
+	      		</p>
+	      		';
+
+	      		sendmail($to, $subject, $bodyMail);
+			}
+			catch (PDOException $e) {
+				echo $e->getMessage();
+				$database->rollBack(); // canceled queries
+			}
 		}
 		elseif (isset($_GET['type']) && $_GET['type'] == "factory") {
 			// sanitize variables
@@ -68,7 +124,7 @@
 		    }
 
 		    $code = rand(100000, 999999); // create company code
-		    $company->company_code = $code;
+		    $company->company_code = $code; // hydrate company code in Company class
 		    $exist = $company->checkCompany(); // verify if this code already exist
 		    while ($exist != 0) { // while this code existe, generate new code
 		    	$code = rand(100000, 999999);
@@ -105,17 +161,25 @@
 				$company->city = $city;
 				$company->phone_number = $phone;
 				$company->mobile_number = $mobile;
+				$database = $user->database;
 
-				$user->database->beginTransaction(); // start transaction
+				$database->beginTransaction(); // start transaction
 				$user->create(); // method for insert new user
     			$company->users_id_manager = $user->id; // hydrate company with the lastInsertId of user  
     			$company->create(); // insert new company
-    			$inscriptionArray = array('user_id' => $user->id, 'company_id' => $company->id);
+
+    			$inscriptionArray = array(
+    				'access' => false,
+    				'verified' => false,
+    				'standby' => false,
+    				'user_id' => $user->id,
+    				'company_id' => $company->id
+    			);
+
     			$inscription = new Inscription($inscriptionArray);
     			$inscription->create(); // insert new inscription  
-      			$user->database->commit(); // send all queries
+      			$successCreate = $database->commit(); // send all queries
 
-      			$successCreate = true;
       			$to = $user->email; // affect receiver mail
       			$subject = 'Bienvenue sur Co\'working'; // subject of the mail
       			// text of the welcoming mail
@@ -137,7 +201,7 @@
 			}
 			catch (PDOException $e) {
 				echo $e->getMessage();
-				$user->database->rollBack(); // canceled queries
+				$database->rollBack(); // canceled queries
 			}
 		}
 	}

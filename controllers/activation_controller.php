@@ -4,6 +4,7 @@
 	require_once dirname(__FILE__).'/../models/User.php'; // insert class User
 	require_once dirname(__FILE__).'/../models/Company.php'; // insert class Company
 	require_once dirname(__FILE__).'/../models/Inscription.php'; // insert class Inscription
+	require_once dirname(__FILE__).'/../models/Online.php'; // insert class Online
 	require_once dirname(__FILE__).'/../utils/mails.php';
 
 	$error = [];
@@ -12,6 +13,7 @@
 	if (ctype_digit($_GET['id']) && isset($_GET['token'])) {
 		$user = new User(['id' => $_GET['id'], 'temporary_code' => $_GET['token']]);
 		$inscription = new Inscription(['user_id' => $_GET['id']]);
+		$online = new Online(['marker' => false, 'users_id' => $_GET['id']]);
 		$exist = $user->checkToken();
 		$interval = $inscription->checkTimeToRegister();
 
@@ -27,8 +29,25 @@
 				try {
 					$company = new Company(['users_id_manager' => $_GET['id']]);
 					$company->getCodeWithManager(); // get company code
+					$database = $user->database;
+					$database->beginTransaction(); // start transaction
+					$inscription->activateAccount();
+					$inscription->verifyAccount();
+					$online->init();
+					$user->resetToken();
+					$activateSuccess = $database->commit();
+				}
+				catch (PDOException $e) {
+					echo $e->getMessage();
+					$database->rollBack(); // canceled queries
+				}
+			}
+			elseif ($permission == 1) {
+				try {
 					$user->database->beginTransaction(); // start transaction
 					$inscription->activateAccount();
+					$inscription->verifyAccount();
+					$online->init();
 					$user->resetToken();
 					$activateSuccess = $user->database->commit();
 				}
@@ -36,18 +55,17 @@
 					echo $e->getMessage();
 					$user->database->rollBack(); // canceled queries
 				}
-
-				// create folders necessary for user
-				$pathList = array('../users/'.$user->id, '../users/'.$user->id.'/arrets_maladie', '../users/'.$user->id.'/cloud', '../users/'.$user->id.'/fiches_de_paie', '../users/'.$user->id.'/conges', '../users/'.$user->id.'/plannings', '../users/'.$user->id.'/img', '../users/'.$user->id.'/publications');
-
-				foreach ($pathList as $path) {
-					if (!mkdir($path, 0777, true)) { // create folder
-    					die('Echec lors de la création du répertoire '.$path); // show error message
-					}
-				}
 			}
-			elseif ($permission == 1) {
-				
+		}
+
+		if ($activateSuccess == true) {
+			// create folders necessary for user
+			$pathList = array('../users/'.$user->id, '../users/'.$user->id.'/arrets_maladie', '../users/'.$user->id.'/cloud', '../users/'.$user->id.'/fiches_de_paie', '../users/'.$user->id.'/conges', '../users/'.$user->id.'/plannings', '../users/'.$user->id.'/img', '../users/'.$user->id.'/publications');
+
+			foreach ($pathList as $path) {
+				if (!mkdir($path, 0777, true)) { // create folder
+    				die('Echec lors de la création du répertoire '.$path); // show error message
+				}
 			}
 		}
 	}
