@@ -64,7 +64,7 @@
 			$insertSuccess = false;
 
 			if ($insertStatement->execute()) {
-				$insertSuccess =true;
+				$insertSuccess = true;
 				$this->id = $this->database->lastInsertId();
 			}
 

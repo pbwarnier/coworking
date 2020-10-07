@@ -65,7 +65,7 @@
 			$insertStatement->bindValue(':firstname', $this->firstname, PDO::PARAM_STR);
 			$insertStatement->bindValue(':email', $this->email, PDO::PARAM_STR);
 			$insertStatement->bindValue(':password', $this->password, PDO::PARAM_STR);
-			$insertStatement->bindValue(':img', $this->img, PDO::PARAM_NULL);
+			$insertStatement->bindValue(':img', $this->img, PDO::PARAM_STR);
 			$insertStatement->bindValue(':birthdate', $this->birthdate, PDO::PARAM_STR);
 			$insertStatement->bindValue(':city', $this->city, PDO::PARAM_NULL);
 			$insertStatement->bindValue(':phone_number', $this->phone_number, PDO::PARAM_NULL);

@@ -4,6 +4,7 @@
 	require_once dirname(__FILE__).'/../models/Inscription.php';
 	require_once dirname(__FILE__).'/../models/History.php';
 	require_once dirname(__FILE__).'/../models/Device.php';
+	require_once dirname(__FILE__).'/../models/Online.php';
 	require_once dirname(__FILE__).'/../utils/info_connexion.php';
 
 	$isSubmitted = false;
@@ -108,14 +109,21 @@
 			'users_id' => $userInfo->users_id
 		);
 
+		$onlineArray = array(
+			'marker' => true,
+			'users_id' => $userInfo->users_id
+		);
+
 		$history = new History($historyArray);
+		$online = new Online($onlineArray);
 		$history->saveLogin();
+		$online->update();
 		$nb_connexion = $history->countLogin();
 		$company->getId();
 
 		// create session with id, login and permissions
 		// create cookies for save session when user close the window
-		$_SESSION['user'] = ['auth' => true, 'id' => $userInfo->users_id, 'login' => $email, 'permission' => $userInfo->permission, 'company_id' =>  $company->company_id];
+		$_SESSION['user'] = ['auth' => true, 'id' => $userInfo->users_id, 'login' => $email, 'permission' => $userInfo->permission, 'company_id' =>  $company->id];
 		$encrypted_id = openssl_encrypt($_SESSION['user']['id'], 'AES-128-ECB', CRYPT_KEY); // crypt ID
 		$encrypted_login = openssl_encrypt($_SESSION['user']['login'], 'AES-128-ECB', CRYPT_KEY); // crypt email
 		$encrypted_permission = openssl_encrypt($_SESSION['user']['permission'], 'AES-128-ECB', CRYPT_KEY);// crypt permission

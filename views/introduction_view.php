@@ -67,16 +67,24 @@
 					</div>
 					<div class="my-2 w-100">
 						<input id="birthdate" class="px-3 py-2 w-100 border <?= isset($errors['birthdate']) ? 'border-danger invalid-shadow' : '' ?>" type="text" name="birthdate" placeholder="Votre date de naissance" autocomplete="off">
-						<?php if (isset($errors['birthdate'])) { ?><div class="small text-danger"><?= $errors['birthdate']; ?></div><?php } ?>
+						<?php if (isset($errors['birthdate'])) : ?>
+						<div class="small text-danger"><?= $errors['birthdate']; ?></div>
+						<?php endif; ?>
 					</div>
 					<div class="my-2 w-100">
-						<input id="localisation" class="px-3 py-2 w-100 border" type="text" placeholder="Votre ville" autocomplete="off">
+						<input id="localisation" class="px-3 py-2 w-100 border <?= isset($errors['city']) ? 'border-danger invalid-shadow' : '' ?>" type="text" placeholder="Votre ville" autocomplete="off">
 						<input type="hidden" name="city">
+						<?php if (isset($errors['phone'])) : ?>
+						<div class="small text-danger"><?= $errors['phone']; ?></div>
+						<?php else : ?>
 						<small class="text-secondary font-italic">Entrez la ville ou le code postal</small>
+						<?php endif; ?>
 					</div>
 					<div class="my-2 w-100">
 						<input class="px-3 py-2 w-100 border <?= isset($errors['phone']) ? 'border-danger invalid-shadow' : '' ?>" type="tel" name="phone" placeholder="Votre numéro de téléphone" autocomplete="off">
-						<?php if (isset($errors['phone'])) { ?><div class="small text-danger"><?= $errors['phone']; ?></div><?php } ?>
+						<?php if (isset($errors['phone'])) : ?>
+						<div class="small text-danger"><?= $errors['phone']; ?></div>
+						<?php endif; ?>
 					</div>
 				</div>
 				<div class="w-100">
@@ -91,11 +99,15 @@
 				<div class="w-100">
 					<div class="mb-2 w-100">
 						<input class="px-3 py-2 w-100 border <?= isset($errors['occupation']) ? 'border-danger invalid-shadow' : '' ?>" type="text" name="occupation" maxlength="50" placeholder="Votre profession (obligatoire)" autocomplete="off">
-						<?php if (isset($errors['occupation'])) { ?><div class="small text-danger"><?= $errors['occupation']; ?></div><?php } ?>
+						<?php if (isset($errors['occupation'])) : ?>
+						<div class="small text-danger"><?= $errors['occupation']; ?></div>
+						<?php endif ?>
 					</div>
 					<div class="my-2 w-100">
 						<input id="date" class="px-3 py-2 w-100 border <?= isset($errors['date']) ? 'border-danger invalid-shadow' : '' ?>" type="text" name="date" placeholder="Date d'arrivée dans l'entreprise" autocomplete="off">
-						<?php if (isset($errors['date'])) { ?><div class="small text-danger"><?= $errors['date']; ?></div><?php } ?>
+						<?php if (isset($errors['date'])) : ?>
+						<div class="small text-danger"><?= $errors['date']; ?></div>
+						<?php endif; ?>
 					</div>
 					<div class="my-2 w-100 d-flex">
 						<input class="px-3 py-2 w-100 border" type="text" name="skills" maxlenght="20" placeholder="Vos compétences" autocomplete="off">

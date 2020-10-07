@@ -7,9 +7,18 @@
 	include dirname(__FILE__).'/../utils/get_scriptname.php';
 	require_once dirname(__FILE__).'/../models/User.php';
 	require_once dirname(__FILE__).'/../models/Work.php';
+	require_once dirname(__FILE__).'/../models/Skill.php';
 
 	$isSubmitted = false;
 	$personalPic = false;
+	$target_dir = '../users/'.$_SESSION['user']['id'].'/img/'; // link with folders
+	$birthdate = null;
+	$city = null;
+	$phone = null;
+	$occupation = null;
+	$date = null;
+	$biography = null;
+	$skills = [];
 	$errors = [];
 
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -17,7 +26,6 @@
 
 		if (!empty($_FILES["userPicture"]['name']) && !empty($_FILES['userPicture']['tmp_name']) && $_FILES['userPicture']['size'] > 0) {
 			$personalPic = true;
-			$target_dir = '../users/'.$_SESSION['user']['id'].'/img/';
 			$target_file = $target_dir.basename($_FILES["userPicture"]["name"]);
 			$imgFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
@@ -67,7 +75,7 @@
     	}
 
     	$city = trim(filter_input(INPUT_POST, 'city', FILTER_SANITIZE_NUMBER_INT));
-    	if (isset($city) && !ctype_digit($city)) {
+    	if (!empty($city) && !ctype_digit($city)) {
     		$errors['city'] = 'Choisir une ville parmi la liste';
     	}
 
@@ -121,14 +129,21 @@
     	$skill_3 = trim(filter_input(INPUT_POST, 'skill_3', FILTER_SANITIZE_STRING));
     	$skill_4 = trim(filter_input(INPUT_POST, 'skill_4', FILTER_SANITIZE_STRING));
     	$skill_5 = trim(filter_input(INPUT_POST, 'skill_5', FILTER_SANITIZE_STRING));
+
+    	$list_skills = array(
+    		'skill_1' => $skill_1,
+    		'skill_2' => $skill_2,
+    		'skill_3' => $skill_3,
+    		'skill_4' => $skill_4,
+    		'skill_5' => $skill_5
+    	);
 	}
 
 	if ($isSubmitted && count($errors) == 0){
-		if ($personalPic === true) {
+		if ($personalPic == true) {
 			$path = pathinfo($target_file);
 			move_uploaded_file($_FILES["userPicture"]["tmp_name"], $target_file);
 			resize_crop_image(1000, 1000, $target_file, $target_dir.$path['filename'].'_resize.'.$path['extension']);
-			unlink($target_file); // delete file
 			if (file_exists($target_dir.$path['filename'].'_resize.'.$path['extension'])) {
 				$target_file = $target_dir.$path['filename'].'_resize.'.$path['extension'];
 			}
@@ -140,14 +155,29 @@
 			$target_file = '/assets/pictures/user.png';
 		}
 
-		$userArray = array(
-			'id' => $_SESSION['user']['id'],
+		// create array with columns which can be modified
+		$arrayUpdates = array(
 			'img' => $target_file,
 			'birthdate' => $birthdate,
 			'phone_number' => $phone,
-			'city' => $city,
+			'city' => intval($city),
 			'biography' => $biography
 		);
+
+		$user = new User(['id' => $_SESSION['user']['id']]); // create new object of User class
+
+		foreach ($arrayUpdates as $key => $value) {
+			$arrayColumns[] = '`'.$key.'` = :'.$key; // insert columns and params in array
+
+			if (!empty($value)) {
+				$user->$key = $value; // hydrate user object
+			}
+			else{
+				$user->$key = null;
+			}
+		}
+
+		$updateSuccess = $user->update($arrayColumns, $arrayUpdates);
 
 		$workArray = array(
 			'occupation' => $occupation,
@@ -156,11 +186,17 @@
 			'users_id' => $_SESSION['user']['id']
 		);
 
-		$user = new User($userArray);
 		$work = new Work($workArray);
-
-		$updateSuccess = $user->update();
 		$insertSuccess = $work->insert();
+
+		$skill = new Skill(['users_id' => $_SESSION['user']['id']]);
+
+		for ($i = 1; $i <= 5; $i++) { 
+    		if (!empty($list_skills['skill_'.$i])) {
+    			$skill->skill_name = $list_skills['skill_'.$i];
+    			$skill->insert();
+    		}
+    	}
 
 		if ($updateSuccess == true && $insertSuccess == true) {
 			header('location: news');
