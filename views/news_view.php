@@ -33,7 +33,7 @@
 					</div>
 					<div class="w-100">
 						<form id="posting" action="news" method="POST" enctype="multipart/form-data">
-							<textarea class="px-3 py-2 w-100 bg-light border border-light rounded" maxlength="999" name="edit-post" placeholder="Ecrivez quelque chose..."></textarea>
+							<textarea class="px-3 py-2 w-100 bg-light border rounded" maxlength="999" name="edit-post" placeholder="Ecrivez quelque chose..."></textarea>
 							<div class="mt-2 w-100 text-right">
 								<label id="attachment" class="px-1 label-disabled rounded-pill" title="Joindre un fichier">
 									  <input class="d-none" name="fileToUpload" type="file" accept="all" disabled="disabled">
@@ -106,7 +106,7 @@
 			<?php if (isset($nb_post) && $nb_post == 0 && empty($_COOKIE['close-info-box'])) : ?>
 			<div class="my-3 p-3 w-100 bg-info shadow-sm border rounded-lg info-box">
 				<div class="mr-2 my-auto text-white d-md-block d-none"><i class="fal fa-exclamation-circle fa-5x"></i></div>
-				<div class="ml-2">
+				<div class="w-100 ml-2">
 					<p class="text-white text-justify">Vous n'avez pas encore publié dans le fil d'actualité. Postez votre premier message pour vous présenter, par exemple.</p>
 					<div class="w-100 d-flex justify-content-end"><button id="writing-post" class="btn btn-light rounded-pill">Rédiger un message</button><button id="close-info" class="ml-2 btn btn-outline-light rounded-pill">Fermer</button></div>
 				</div>
@@ -172,7 +172,11 @@
 						<?php endif; ?>
 					</div>
 					<div class="w-100 d-flex">
-						<button id="btn-like-<?= $postInfo->posts_id; ?>" type="button" class="w-100 border-0 btn-interaction" data-id="<?= $postInfo->posts_id; ?>" data-action="like">J'aime<i class="ml-2 far fa-thumbs-up"></i></button>
+					<?php if ($like->checkLiked($postInfo->posts_id) == false) : ?>
+						<button id="btn-like-<?= $postInfo->posts_id; ?>" type="button" class="w-100 border-0 btn-interaction disliked" data-id="<?= $postInfo->posts_id; ?>" data-action="like">J'aime<i class="ml-2 far fa-thumbs-up"></i></button>
+					<?php else : ?>
+						<button id="btn-like-<?= $postInfo->posts_id; ?>" type="button" class="w-100 border-0 btn-interaction liked text-info" data-id="<?= $postInfo->posts_id; ?>" data-action="dislike">J'aime<i class="ml-2 far fa-thumbs-up"></i></button>
+					<?php endif; ?>
 						<button id="btn-comment-<?= $postInfo->posts_id; ?>" type="button" class="w-100 border-0 btn-interaction" data-id="<?= $postInfo->posts_id; ?>" data-action="comment">Commenter<i class="ml-2 far fa-comment"></i></button>
 					</div>
 					<!-- commentaires -->

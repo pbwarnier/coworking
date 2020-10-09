@@ -152,11 +152,16 @@ $(document).ready(function(){
 			$("#commentsBloc_"+id).slideToggle();
 		}
 
-		if(action == "like"){
+		if(action == "like" && $("#btn-like-"+id).hasClass('disliked')){
 			$.post('controllers/news_controller.php', { idPost: id, action: "like" }, function(response){
 				response = JSON.parse(response);
 				if (response.success == 1) {
-					$("#btn-like-"+id).addClass('text-info').html('J\'aime<i class="ml-2 far fa-thumbs-up"></i>');
+					$("#btn-like-"+id)
+					.addClass('text-info')
+					.removeClass('disliked')
+					.addClass('liked')
+					.attr('data-action', 'dislike');
+
 					if (response.count == 1) {
 						$("#post_"+id+" p").after('<div id="reactions_'+id+'" class="text-secondary small text-right">1<i class="ml-2 mr-3 far fa-thumbs-up"></i>0<i class="mx-2 far fa-comment"></i></div>');
 					}
@@ -172,6 +177,34 @@ $(document).ready(function(){
 					var postId = post.attr('id');
 					$("#"+postId+" p").after('<div class="alert alert-danger" role="alert">Une erreur est survenue lors de l\'enregistrement de votre réaction, contactez l\'administrateur.</div>');
 				}	
+			})
+		}
+
+		if (action == "dislike" && $("#btn-like-"+id).hasClass('liked')) {
+			$.post('controllers/news_controller.php', { idPost: id, action: "dislike" }, function(response){
+				response = JSON.parse(response);
+				if (response.success == 1) {
+					$("#btn-like-"+id)
+					.removeClass('text-info')
+					.removeClass('liked')
+					.addClass('disliked')
+					.attr('data-action', 'like');
+
+					if (response.count == 0) {
+						$("#reactions_"+id).remove();
+					}
+					else {
+						var nb_likes = $("#likes_"+id).text();
+						nb_likes = parseInt(nb_likes);
+						nb_likes = nb_likes + 1;
+						$("#likes_"+id).text(nb_likes);
+					}	
+				}
+				else {
+					var post = $(this).closest('div.shadow-sm');
+					var postId = post.attr('id');
+					$("#"+postId+" p").after('<div class="alert alert-danger" role="alert">Une erreur est survenue lors de l\'enregistrement de votre réaction, contactez l\'administrateur.</div>');
+				}
 			})
 		}
 	})

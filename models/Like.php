@@ -65,4 +65,29 @@
 				return $nb_likes;
 			}
 		}
+
+		public function checkLiked($postId = 0)
+		{
+			$count_SQL = 'SELECT COUNT(`likes_id`) AS `nb_likes` FROM `likes` WHERE `posts_id` = :posts_id AND `users_id` = :users_id';
+			$countStatement = $this->database->prepare($count_SQL);
+
+			$countStatement->bindValue(':posts_id', $postId, PDO::PARAM_INT);
+			$countStatement->bindValue(':users_id', $this->users_id, PDO::PARAM_INT);
+
+			if ($countStatement->execute()) {
+				$like_exist = $countStatement->fetchColumn();
+				return boolval($like_exist);
+			}
+		}
+
+		public function delete()
+		{
+			$delete_SQL = '	DELETE FROM `likes` WHERE `posts_id` = :posts_id AND `users_id` = :users_id';
+			$deleteStatement = $this->database->prepare($delete_SQL);
+
+			$deleteStatement->bindValue(':users_id', $this->users_id, PDO::PARAM_INT);
+			$deleteStatement->bindValue(':posts_id', $this->posts_id, PDO::PARAM_INT);
+
+			return $deleteStatement->execute();
+		}
 	}

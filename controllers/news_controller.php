@@ -40,7 +40,7 @@
 	$user = new User($userArray);
 	$inscription = new Inscription(['company_id' => $_SESSION['user']['company_id']]);
 	$company = new Company(['id' => $_SESSION['user']['company_id']]);
-
+	$like = new Like(['users_id' => $_SESSION['user']['id']]);
 	$post->ban = 0;
 	$post->company_id = $_SESSION['user']['company_id'];
 
@@ -56,8 +56,16 @@
 				exit();
 			}
 			elseif ($_POST['action'] == 'like') {
-				$like = new Like(['users_id' => $_SESSION['user']['id'], 'posts_id' => $id]);
+				$like->posts_id = $id;
 				$likeSuccess = $like->insert();
+				$nb_likes = $like->count();
+				$response = array('success' => $likeSuccess, 'count' => intval($nb_likes));
+				echo json_encode($response);
+				exit();
+			}
+			elseif ($_POST['action'] == 'dislike') {
+				$like->posts_id = $id;
+				$likeSuccess = $like->delete();
 				$nb_likes = $like->count();
 				$response = array('success' => $likeSuccess, 'count' => intval($nb_likes));
 				echo json_encode($response);
